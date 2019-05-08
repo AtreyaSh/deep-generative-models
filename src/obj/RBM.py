@@ -53,6 +53,7 @@ class RBM:
         for i in range(0, len(l), n):
             yield l[i:i + n]
     
+    # @tf.function
     def contrastive_divergence_k(self, tensors):
         """ learn and update weights/biases via CD-k algorithm """
         tensors = list(self.chunks(tensors,self.batch_size))
@@ -78,7 +79,8 @@ class RBM:
                 self.b_h.assign_add(self.learning_rate*tf.reduce_mean(tf.add(u,-1*u_new),0))
                 self.b_v.assign_add(self.learning_rate*tf.reduce_mean(tf.add(batch,-1*v_new),0))
             print("Mean gradient 2-norm: %s" % float(log/num_samples))
-        
+    
+    # @tf.function
     def persistive_contrastive_divergence_k(self, tensors):
         """ learn and update weights/biases via PCD-k algorithm """
         tensors = list(self.chunks(tensors,self.batch_size))

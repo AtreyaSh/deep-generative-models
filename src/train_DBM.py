@@ -5,6 +5,7 @@ import os
 import pickle
 import datetime
 import argparse
+import re
 from obj.DBM import DBM
 import tensorflow as tf
 
@@ -16,12 +17,11 @@ def trainDBM(learning_rate, k1, k2, k3, epochs, batch_size, dims):
     # import mnist data
     print("importing MNIST training data")
     mnist = tf.keras.datasets.mnist
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    x_train, x_test = x_train / 255.0, x_test / 255.0
-    x_train = [tf.reshape(x,shape=(784,1)) for x in x_train]
-    x_train = [tf.cast(x,"float32") for x in x_train]
+    (x_train, y_train), (_, _) = mnist.load_data()
+    x_train = x_train/255.0
+    x_train = [tf.cast(tf.reshape(x,shape=(784,1)),"float32") for x in x_train]
     # create log directory
-    current_time = getCurrentTime()
+    current_time = getCurrentTime()+"_"+re.sub(",","_",dims)
     os.makedirs("pickles/"+current_time)
     # parse string input into integer list
     dims = [int(el) for el in dims.split(",")]

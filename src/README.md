@@ -30,13 +30,13 @@ required named arguments:
                         separated by a comma character, eg. 784,500,500,1000
 ```
 
-The script in `train_DBM.py` will train a corresponding DBM and write it as a pickle into a local log directory. An example of running `train_DBM.py` is given below:
+This script currently supports TensorFlow eager execution for easy debugging. For conversion to AutoGraph, minor modifications such as additions of `@tf.function` calls would need to be made. The script in `train_DBM.py` will train a corresponding DBM and write it as a pickle into a local log directory in `/src/pickles`. An example of running `train_DBM.py` is given below:
 
 ```shell
 $ python3 train_DBM.py --epochs 2 --dimensions 784,500,500,1000
 ```
 
-A pre-trained DBM with dimensions `784,500,500,1000` has been saved in the pickles directory.
+A pre-trained DBM with dimensions `784,500,500,1000` has been saved in the `/src/pickles` directory.
 
 ### Sample Visualizations
 
