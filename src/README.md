@@ -36,6 +36,22 @@ The script in `train_DBM.py` will train a corresponding DBM and write it as a pi
 $ python3 train_DBM.py --epochs 2 --dimensions 784,500,500,1000
 ```
 
-Below is a sample generative output of 100 MNIST test images:
+A pre-trained DBM with dimensions `784,500,500,1000` has been saved in the pickles directory.
+
+### Sample Visualizations
+
+Using the pre-trained DBM, we generated new samples of 100 random MNIST test images:
 
 <img src="/img/sample.png" width="800">
+
+Below are generated samples of specific MNIST test images:
+
+<img src="/img/two.png" width="800">
+
+<img src="/img/three.png" width="800">
+
+<img src="/img/four.png" width="800">
+
+<img src="/img/six.png" width="800">
+
+<img src="/img/nine.png" width="800">
