@@ -39,6 +39,8 @@ def getCurrentTime():
 # main command call
 ####################################
 
+# TODO: modify code for AutoGraph execution and progress log within
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--learning-rate", type=float, default=0.01,
