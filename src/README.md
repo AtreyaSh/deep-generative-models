@@ -46,12 +46,10 @@ Using the pre-trained DBM, we generated new samples of 100 random MNIST test ima
 
 Below are generated samples of specific MNIST test images:
 
-<img src="/img/two.png" width="500">
+<img src="/img/two.png" width="400"> <img src="/img/four.png" width="400">
 
-<img src="/img/three.png" width="500">
+<img src="/img/three.png" width="400"> <img src="/img/nine.png" width="400">
 
-<img src="/img/four.png" width="500">
+<img src="/img/six.png" width="400">
 
-<img src="/img/six.png" width="500">
 
-<img src="/img/nine.png" width="500">
