@@ -8,7 +8,7 @@ from tensorflow.python.ops import control_flow_util
 control_flow_util.ENABLE_CONTROL_FLOW_V2 = True
 
 class RBM:
-    """ 
+    """
     Restricted Boltzmann Machine (RBM) in TensorFlow 2
     pseudocode adapted from Hugo Larochelle's deep-learning Youtube series "Neural networks [5.6]"
     """
@@ -28,7 +28,7 @@ class RBM:
         self.k2 = k2
         self.epochs = epochs
         self.batch_size = batch_size
-        
+
     def gibbs_sampling(self, v, k = 5):
         """ function for gibbs sampling for k-iterations """
         for _ in range(k):
@@ -41,18 +41,18 @@ class RBM:
         return v
 
     def prop_up(self, v):
-        """ upwards conditional propagation sampling """
+        """ upwards mean-field propagation """
         return tf.nn.sigmoid(tf.add(self.b_h, tf.matmul(self.w,v)))
-    
+
     def prop_down(self, h):
-        """ downwards conditional propagation sampling """
+        """ downwards mean-field propagation """
         return tf.sigmoid(tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h)))
-    
+
     def chunks(self, l, n):
         """ create chunks/batches from input data """
         for i in range(0, len(l), n):
             yield l[i:i + n]
-    
+
     # @tf.function
     def contrastive_divergence_k(self, tensors):
         """ learn and update weights/biases via CD-k algorithm """
@@ -79,7 +79,7 @@ class RBM:
                 self.b_h.assign_add(self.learning_rate*tf.reduce_mean(tf.add(u,-1*u_new),0))
                 self.b_v.assign_add(self.learning_rate*tf.reduce_mean(tf.add(batch,-1*v_new),0))
             print("Mean gradient 2-norm: %s" % float(log/num_samples))
-    
+
     # @tf.function
     def persistive_contrastive_divergence_k(self, tensors):
         """ learn and update weights/biases via PCD-k algorithm """

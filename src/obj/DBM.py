@@ -9,7 +9,7 @@ from tensorflow.python.ops import control_flow_util
 control_flow_util.ENABLE_CONTROL_FLOW_V2 = True
 
 class DBM:
-    """ 
+    """
     Deep Boltzmann Machine (RBM) in TensorFlow 2
     pseudocode adapted from Hugo Larochelle's deep-learning Youtube series "Neural networks [7.9]"
     """
@@ -20,7 +20,7 @@ class DBM:
                            batch_size=batch_size) for i in range(len(dims)-1)]
         self.k3 = k3
         self.top_samples = None
-        
+
     def train_PCD(self, data):
         """ train stacked RBMs via greedy PCD-k algorithm """
         for i in range(len(self.models)):
@@ -33,12 +33,12 @@ class DBM:
             else:
                 print("Final model, no generation for next model")
                 self.top_samples = data
-    
+
     def generate_visible_downwards(self, samples = None, number_samples = None, k = 15):
         """ generate visible samples from last RBM#s input samples """
         print("Gibbs sampling at deepest model: %s" % str(len(self.models)))
         if samples == None:
-            samples = self.samples
+            samples = self.top_samples
         if number_samples == None:
             number_samples = len(samples)
         new_data = [self.models[len(self.models)-1].gibbs_sampling(img,k) for img in tqdm(sample(samples,number_samples))]
@@ -46,7 +46,7 @@ class DBM:
             print("Downward propagation at model: %s" % str(i+1))
             new_data = [self.models[i].prop_down(img) for img in new_data]
         return new_data
-    
+
     def generate_visible_up_down(self, test_data, number_samples = None, k = 15):
         """ propagate new samples upwards and create visible samples through downward propagation """
         for i in range(len(self.models)-1):

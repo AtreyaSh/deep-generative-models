@@ -2,15 +2,17 @@
 
 ### Deep Boltzmann Machine (DBM)
 
-The file `train_DBM.py` includes source-code for training and writing a Deep Boltzmann Machine. By default, this code has been written for MNIST data. However, the code and its internal classes can principally be used for other data, without any particular preference being hard-coded for MNIST.
+The file `train_DBM.py` includes source-code for training and writing a Deep Boltzmann Machine. This code has default functionalities for MNIST and Fashion-MNIST input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
 
 ```
-usage: train_DBM.py [-h] [--learning-rate LEARNING_RATE] [--k1 K1] [--k2 K2]
-                    [--k3 K3] [--epochs EPOCHS] [--batch-size BATCH_SIZE] -d
-                    DIMENSIONS
+usage: train_DBM.py [-h] [--data DATA] [--learning-rate LEARNING_RATE]
+                    [--k1 K1] [--k2 K2] [--k3 K3] [--epochs EPOCHS]
+                    [--batch-size BATCH_SIZE] -d DIMENSIONS
 
 optional arguments:
   -h, --help            show this help message and exit
+  --data DATA           data source to train DBM, possibilities are 'mnist'
+                        and 'fashion_mnist', defaults to 'mnist'
   --learning-rate LEARNING_RATE
                         learning rate for stacked RBMs, defaults to 0.01
   --k1 K1               number of Gibbs-sampling steps pre-PCD-k algorithm,
@@ -36,20 +38,18 @@ This script currently supports TensorFlow eager execution for easy debugging. Fo
 $ python3 train_DBM.py --epochs 2 --dimensions 784,500,500,1000
 ```
 
-A pre-trained DBM with dimensions `784,500,500,1000` has been saved in the `/src/pickles` directory.
+Pre-trained DBMs with dimensions `784,500,500,1000` for both MNIST and fashion-MNIST been saved in the `/src/pickles` directory.
 
-### Sample Visualizations
+### Mean-Field Sample Visualizations
 
-Using the pre-trained DBM, we generated new samples of 100 random MNIST test images:
+Using the pre-trained DBM, we generated 100 random (mean-field) samples of MNIST images:
 
 <img src="/img/sample.png" width="800">
 
-Below are generated samples of specific MNIST test images:
+The same process was done for 100 random (mean-field) samples of fashion-MNIST images:
 
-<img src="/img/two.png" width="400"> <img src="/img/four.png" width="400">
+<img src="/img/sample2.png" width="800">
 
-<img src="/img/three.png" width="400"> <img src="/img/nine.png" width="400">
+### Developments
 
-<img src="/img/six.png" width="400">
-
-
+Further developments are summarized in a local [change log](/src/todos.md).
