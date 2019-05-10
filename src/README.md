@@ -7,8 +7,8 @@ The file `train_DBM.py` includes source-code for training and writing a Deep Bol
 In order to download/deploy the LFW cropped grayscale data, you can execute the following:
 
 ```shell
-$ wget http://conradsanderson.id.au/lfwcrop/lfwcrop_grey.zip
-$ unzip lfwcrop_grey.zip -d ./data/
+$ wget http://conradsanderson.id.au/lfwcrop/lfwcrop_grey.zip && unzip lfwcrop_grey.zip -d ./data/
+
 $ cd ./data && ln -s lfwcrop_grey/faces .
 ```
 
@@ -48,7 +48,7 @@ This script currently supports TensorFlow eager execution for easy debugging. Fo
 $ python3 train_DBM.py --epochs 2 --dimensions 784,500,500,1000
 ```
 
-Pre-trained DBMs with dimensions `784,500,500,1000` for MNIST, fashion-MNIST and LFW cropped faces been saved in the `/src/pickles` directory.
+Pre-trained DBMs for MNIST, fashion-MNIST and LFW cropped faces been saved in the `/src/pickles` directory.
 
 ### Mean-Field Sample Visualizations
 
@@ -60,7 +60,7 @@ The same process was done for 100 random (mean-field) samples of fashion-MNIST i
 
 <img src="/img/sample2.png" width="800">
 
-The same process was done for 100 random (mean-field) samples of LFW cropped-face images:
+The same process was done for 100 random (mean-field) samples of LFW cropped-face images. Here, the results of generating samples was not as clear-cut as per MNIST and fashion-MNIST. This is due to the lack of sparseness in face vectors. As a result, we had to force sparseness in the vectors by converting pixels with low intensities to zero.
 
 <img src="/img/sample18.png" width="800">
 
