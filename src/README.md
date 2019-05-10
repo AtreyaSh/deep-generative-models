@@ -2,7 +2,17 @@
 
 ### Deep Boltzmann Machine (DBM)
 
-The file `train_DBM.py` includes source-code for training and writing a Deep Boltzmann Machine. This code has default functionalities for MNIST and Fashion-MNIST input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
+The file `train_DBM.py` includes source-code for training and writing a Deep Boltzmann Machine. This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
+
+In order to download/deploy the LFW cropped grayscale data, you can execute the following:
+
+```shell
+$ wget http://conradsanderson.id.au/lfwcrop/lfwcrop_grey.zip
+$ unzip lfwcrop_grey.zip -d ./data/
+$ cd ./data && ln -s lfwcrop_grey/faces .
+```
+
+Here we have summarized documentation regarding the `train_DBM.py` function.
 
 ```
 usage: train_DBM.py [-h] [--data DATA] [--learning-rate LEARNING_RATE]
@@ -11,8 +21,8 @@ usage: train_DBM.py [-h] [--data DATA] [--learning-rate LEARNING_RATE]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --data DATA           data source to train DBM, possibilities are 'mnist'
-                        and 'fashion_mnist', defaults to 'mnist'
+  --data DATA           data source to train DBM, possibilities are 'mnist',
+                        'fashion_mnist' and 'faces', defaults to 'mnist'
   --learning-rate LEARNING_RATE
                         learning rate for stacked RBMs, defaults to 0.01
   --k1 K1               number of Gibbs-sampling steps pre-PCD-k algorithm,
@@ -38,7 +48,7 @@ This script currently supports TensorFlow eager execution for easy debugging. Fo
 $ python3 train_DBM.py --epochs 2 --dimensions 784,500,500,1000
 ```
 
-Pre-trained DBMs with dimensions `784,500,500,1000` for both MNIST and fashion-MNIST been saved in the `/src/pickles` directory.
+Pre-trained DBMs with dimensions `784,500,500,1000` for MNIST, fashion-MNIST and LFW cropped faces been saved in the `/src/pickles` directory.
 
 ### Mean-Field Sample Visualizations
 
@@ -50,6 +60,10 @@ The same process was done for 100 random (mean-field) samples of fashion-MNIST i
 
 <img src="/img/sample2.png" width="800">
 
-### Developments
+The same process was done for 100 random (mean-field) samples of LFW cropped-face images:
+
+<img src="/img/sample18.png" width="800">
+
+## Developments
 
 Further developments are summarized in a local [change log](/src/todos.md).

@@ -13,3 +13,10 @@
 * add autograph call to DBM and test with Google GPU for optimization
 * fix lens with shapes in autograph
 * figure out progress log with tensorflow autograph
+
+### face sample generation
+* think of optimizations such as simplifying faces/reducing image size
+* utilize GPU in google colab for this process
+* image has 4096 vector length, so appropriate size of hidden layers is required eg. 4096,1000,1000,2000
+* use 2 epochs, 0.1 learning rate and 20 batch size to prevent noise
+* make sample wise comparison plotting
