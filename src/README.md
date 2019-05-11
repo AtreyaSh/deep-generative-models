@@ -9,7 +9,7 @@ In order to download/deploy the LFW cropped grayscale data, you can execute the 
 ```shell
 $ wget http://conradsanderson.id.au/lfwcrop/lfwcrop_grey.zip && unzip lfwcrop_grey.zip -d ./data/
 
-$ cd ./data && ln -s lfwcrop_grey/faces .
+$ mv lfwcrop_grey.zip ./data && cd ./data && ln -s lfwcrop_grey/faces .
 ```
 
 Here we have summarized documentation regarding the `train_DBM.py` function.
