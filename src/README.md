@@ -7,9 +7,7 @@ The file `train_DBM.py` includes source-code for training and writing a Deep Bol
 In order to download/deploy the LFW cropped grayscale data, you can execute the following:
 
 ```shell
-$ wget http://conradsanderson.id.au/lfwcrop/lfwcrop_grey.zip && unzip lfwcrop_grey.zip -d ./data/
-
-$ mv lfwcrop_grey.zip ./data && cd ./data && ln -s lfwcrop_grey/faces .
+$ ./lfw_setup.sh
 ```
 
 Here we have summarized documentation regarding the `train_DBM.py` function.
