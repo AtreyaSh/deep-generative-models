@@ -1,8 +1,8 @@
 ## Deep Generative Models using TensorFlow 2.0 Alpha
 
-### Deep Boltzmann Machine (DBM)
+### Deep Belief Network (DBN)
 
-The file `train_DBM.py` includes source-code for training and writing a Deep Boltzmann Machine. This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
+The file `train_DBN.py` includes source-code for training and writing a Deep Belief Network. This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
 
 In order to download/deploy the LFW cropped grayscale data, you can execute the following:
 
@@ -10,16 +10,16 @@ In order to download/deploy the LFW cropped grayscale data, you can execute the 
 $ ./lfw_setup.sh
 ```
 
-Here we have summarized documentation regarding the `train_DBM.py` function.
+Here we have summarized documentation regarding the `train_DBN.py` function.
 
 ```
-usage: train_DBM.py [-h] [--data DATA] [--learning-rate LEARNING_RATE]
+usage: train_DBN.py [-h] [--data DATA] [--learning-rate LEARNING_RATE]
                     [--k1 K1] [--k2 K2] [--k3 K3] [--epochs EPOCHS]
                     [--batch-size BATCH_SIZE] -d DIMENSIONS
 
 optional arguments:
   -h, --help            show this help message and exit
-  --data DATA           data source to train DBM, possibilities are 'mnist',
+  --data DATA           data source to train DBN, possibilities are 'mnist',
                         'fashion_mnist' and 'faces', defaults to 'mnist'
   --learning-rate LEARNING_RATE
                         learning rate for stacked RBMs, defaults to 0.01
@@ -40,17 +40,17 @@ required named arguments:
                         separated by a comma character, eg. 784,500,500,1000
 ```
 
-This script currently supports TensorFlow eager execution for easy debugging. For conversion to AutoGraph, minor modifications such as additions of `@tf.function` calls would need to be made. The script in `train_DBM.py` will train a corresponding DBM and write it as a pickle into a local log directory in `/src/pickles`. An example of running `train_DBM.py` is given below:
+This script currently supports TensorFlow eager execution for easy debugging. For conversion to AutoGraph, minor modifications such as additions of `@tf.function` calls would need to be made. The script in `train_DBM.py` will train a corresponding DBM and write it as a pickle into a local log directory in `/src/pickles`. An example of running `train_DBN.py` is given below:
 
 ```shell
-$ python3 train_DBM.py --epochs 2 --dimensions 784,500,500,1000
+$ python3 train_DBN.py --epochs 2 --dimensions 784,500,500,1000
 ```
 
-Pre-trained DBMs for MNIST, fashion-MNIST and LFW cropped faces been saved in the `/src/pickles` directory.
+Pre-trained DBNs for MNIST, fashion-MNIST and LFW cropped faces been saved in the `/src/pickles` directory.
 
 ### Mean-Field Sample Visualizations
 
-Using the pre-trained DBM, we generated 100 random (mean-field) samples of MNIST images:
+Using the pre-trained DBN, we generated 100 random (mean-field) samples of MNIST images:
 
 <img src="/img/sample.png" width="800">
 

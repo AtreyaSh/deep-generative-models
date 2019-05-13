@@ -7,7 +7,7 @@ import datetime
 import argparse
 import re
 import glob
-from obj.DBM import DBM
+from obj.DBN import DBN
 import tensorflow as tf
 import numpy as np
 import matplotlib.image as mpimg
@@ -41,15 +41,15 @@ def trainDBM(data, learning_rate, k1, k2, k3, epochs, batch_size, dims):
         # auto conversion to probabilities in earlier step
         x_train = [tf.cast(tf.reshape(x,shape=(784,1)),"float32") for x in x_train]
     # create log directory
-    current_time = getCurrentTime()+"_"+re.sub(",","_",dims)+"_"+data
+    current_time = getCurrentTime()+"_"+re.sub(",","_",dims)+"_"+data+"_dbn"
     os.makedirs("pickles/"+current_time)
     # parse string input into integer list
     dims = [int(el) for el in dims.split(",")]
-    dbm = DBM(dims, learning_rate, k1, k2, k3, epochs, batch_size)
-    dbm.train_PCD(x_train)
+    dbn = DBN(dims, learning_rate, k1, k2, k3, epochs, batch_size)
+    dbn.train_PCD(x_train)
     # dump dbm pickle
-    f = open("pickles/"+current_time+"/dbm.pickle", "wb")
-    pickle.dump(dbm, f, protocol=pickle.HIGHEST_PROTOCOL)
+    f = open("pickles/"+current_time+"/dbn.pickle", "wb")
+    pickle.dump(dbn, f, protocol=pickle.HIGHEST_PROTOCOL)
     f.close()
 
 def getCurrentTime():
@@ -62,7 +62,7 @@ def getCurrentTime():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, default="mnist",
-                        help="data source to train DBM, possibilities are 'mnist', 'fashion_mnist' and 'faces', defaults to 'mnist'")
+                        help="data source to train DBN, possibilities are 'mnist', 'fashion_mnist' and 'faces', defaults to 'mnist'")
     parser.add_argument("--learning-rate", type=float, default=0.01,
                         help="learning rate for stacked RBMs, defaults to 0.01")
     parser.add_argument("--k1", type=int, default=1,
