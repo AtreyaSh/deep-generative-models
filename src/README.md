@@ -27,8 +27,6 @@ optional arguments:
                         defaults to 1
   --k2 K2               number of Gibbs-sampling steps during PCD-k algorithm,
                         defaults to 5
-  --k3 K3               number of Gibbs-sampling steps before transferring
-                        samples to next model, defaults to 5
   --epochs EPOCHS       number of overall training data passes for each RBM,
                         defaults to 1
   --batch-size BATCH_SIZE
