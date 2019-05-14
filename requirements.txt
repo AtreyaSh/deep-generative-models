@@ -1,5 +1,5 @@
 numpy==1.16.2
+tensorflow==2.0.0a0
 scikit_image==0.15.0
 matplotlib==3.0.2
-tensorflow==2.0.0a0
 skimage==0.0
