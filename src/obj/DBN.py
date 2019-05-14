@@ -34,7 +34,7 @@ class DBN:
 
     def generate_visible_samples(self, k = 15, number_samples = 100, indices = None, mean_field = False):
         """ generate visible samples from last RBMs input samples """
-        print("Gibbs sampling at deepest model: %s" % str(len(self.models)))
+        print("Gibbs sampling at inner RBM: %s" % str(len(self.models)))
         samples = self.top_samples
         if indices == None:
             new_data = [self.models[len(self.models)-1].gibbs_sampling(img,k) for img in sample(samples,number_samples)]
@@ -43,7 +43,7 @@ class DBN:
             new_data = [self.models[len(self.models)-1].gibbs_sampling(img,k) for img in samples]
         for i in reversed(range(len(self.models)-1)):
             print("Downward propagation at model: %s" % str(i+1))
-            if i == 0 and mean_field:
+            if mean_field:
                 new_data = [self.models[i].prop_down(img) for img in new_data]
             else:
                 new_data = [self.models[i].random_sample(self.models[i].prop_down(img)) for img in new_data]

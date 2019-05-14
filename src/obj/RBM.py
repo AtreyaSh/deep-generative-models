@@ -62,25 +62,25 @@ class RBM:
         tensors = list(self.chunks(tensors,self.batch_size))
         num_samples = len(tensors)
         for i in range(self.epochs):
-            i = 0
+            j = 0
             log = 0
             print("Epoch: %s" % str(i+1))
             for batch in tensors:
-                if i % 20 == 0:
-                    print("Batch number: %s/%d" % (i,num_samples))
+                if j % 20 == 0:
+                    print("Batch number: %s/%d" % (j,num_samples))
                 # compute starting gradient
                 batch = tf.stack(batch)
                 u = tf.map_fn(self.prop_up,batch)
-                g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(u.get_shape().as_list()[0])]),0)
+                g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
                 # compute sampled gibbs
                 v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2),batch)
                 u_new = tf.map_fn(self.prop_up,v_new)
                 # compute change to gradient, average gradient shifts before adding
-                g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(u_new.get_shape().as_list()[0])]),0)
+                g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
                 g += g_delta
                 # log norm of new gradient
                 log += tf.norm(g,ord=2)
-                i += 1
+                j += 1
                 # update parameters
                 self.w.assign_add(self.learning_rate*g)
                 self.b_h.assign_add(self.learning_rate*tf.reduce_mean(tf.add(u,-1*u_new),0))
@@ -93,26 +93,26 @@ class RBM:
         tensors = list(self.chunks(tensors,self.batch_size))
         num_samples = len(tensors)
         for i in range(self.epochs):
-            i = 0
+            j = 0
             log = 0
             print("Epoch: %s" % str(i+1))
             for batch in tensors:
-                if i % 20 == 0:
-                    print("Batch number: %s/%d" % (i,num_samples))
+                if j % 20 == 0:
+                    print("Batch number: %s/%d" % (j,num_samples))
                 # compute starting gradient
                 batch = tf.stack(batch)
                 u = tf.map_fn(self.prop_up,batch)
-                g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(u.get_shape().as_list()[0])]),0)
+                g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
                 # compute sampled gibbs
                 batch = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k1),batch)
                 v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2),batch)
                 u_new = tf.map_fn(self.prop_up,v_new)
                 # compute change to gradient, average gradient shifts before adding
-                g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(u_new.get_shape().as_list()[0])]),0)
+                g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
                 g += g_delta
                 # log norm of new gradient
                 log += tf.norm(g,ord=2)
-                i += 1
+                j += 1
                 # update parameters
                 self.w.assign_add(self.learning_rate*g)
                 self.b_h.assign_add(self.learning_rate*tf.reduce_mean(tf.add(u,-1*u_new),0))

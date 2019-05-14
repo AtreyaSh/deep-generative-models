@@ -9,7 +9,7 @@ from aux.updateClass import readClass
 
 def plotSamples(namePickle,nameFile,dim):
     dbn = readClass(namePickle)
-    samples = dbn.generate_visible_downwards()
+    samples = dbn.generate_visible_samples(mean_field=True)
     plotSamples_DBN(samples, nameFile, dim)
 
 def plotSamples_DBN(obj, name, dim = 28, nrows = 10, ncols = 10):
