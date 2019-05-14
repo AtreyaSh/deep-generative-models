@@ -7,12 +7,12 @@ import os
 import matplotlib.pyplot as plt
 from aux.updateClass import readClass
 
-def plotSamples(namePickle,nameFile,dim,number_samples = 100):
+def plotSamples(namePickle,nameFile,dim):
     dbn = readClass(namePickle)
-    samples = dbn.generate_visible_downwards(number_samples = number_samples)
+    samples = dbn.generate_visible_downwards()
     plotSamples_DBN(samples, nameFile, dim)
 
-def plotSamples_DBN(obj, name, dim, nrows = 10, ncols = 10):
+def plotSamples_DBN(obj, name, dim = 28, nrows = 10, ncols = 10):
     fig, ax = plt.subplots(nrows=nrows, ncols=ncols)
     i = 0
     for row in ax:

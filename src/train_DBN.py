@@ -17,7 +17,7 @@ from skimage.transform import resize
 # train DBM from MNIST
 ################################
 
-def trainDBM(data, learning_rate, k1, k2, k3, epochs, batch_size, dims):
+def trainDBM(data, learning_rate, k1, k2, epochs, batch_size, dims):
     # import data
     print("importing training data")
     if data == "fashion_mnist":
@@ -45,7 +45,7 @@ def trainDBM(data, learning_rate, k1, k2, k3, epochs, batch_size, dims):
     os.makedirs("pickles/"+current_time)
     # parse string input into integer list
     dims = [int(el) for el in dims.split(",")]
-    dbn = DBN(dims, learning_rate, k1, k2, k3, epochs, batch_size)
+    dbn = DBN(dims, learning_rate, k1, k2, epochs, batch_size)
     dbn.train_PCD(x_train)
     # dump dbm pickle
     f = open("pickles/"+current_time+"/dbn.pickle", "wb")
@@ -69,8 +69,6 @@ if __name__ == "__main__":
                         help="number of Gibbs-sampling steps pre-PCD-k algorithm, defaults to 1")
     parser.add_argument("--k2", type=int, default=5,
                         help="number of Gibbs-sampling steps during PCD-k algorithm, defaults to 5")
-    parser.add_argument("--k3", type=int, default=5,
-                        help="number of Gibbs-sampling steps before transferring samples to next model, defaults to 5")
     parser.add_argument("--epochs", type=int, default=1,
                         help="number of overall training data passes for each RBM, defaults to 1")
     parser.add_argument("--batch-size", type=int, default=5,
@@ -81,4 +79,4 @@ if __name__ == "__main__":
                                required=True)
     args = parser.parse_args()
     # train DBM based on parameters
-    trainDBM(args.data,args.learning_rate,args.k1,args.k2,args.k3,args.epochs,args.batch_size,args.dimensions)
+    trainDBM(args.data,args.learning_rate,args.k1,args.k2,args.epochs,args.batch_size,args.dimensions)
