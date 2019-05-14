@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+import tensorflow as tf
 from random import sample 
 from .RBM import RBM
 from tensorflow.python.ops import control_flow_util
@@ -26,7 +27,11 @@ class DBN:
             self.models[i].persistive_contrastive_divergence_k(data)
             if i != len(self.models)-1:
                 print("Sampling data for model: %s" % str(i+2))
-                self.models[i+1].b_v = self.models[i].b_h
+                self.models[i+1].b_v = tf.Variable(self.models[i].b_h)
+                if self.models[i+1].w.get_shape().as_list() == tf.transpose(self.models[i].w).get_shape().as_list():
+                    print("Assigning previously learned transpose-weights to next model")
+                    self.models[i+1].w = tf.Variable(tf.transpose(self.models[i].w))
+                    self.models[i+1].b_h = tf.Variable(self.models[i].b_v)
                 data = [self.models[i].random_sample(self.models[i].prop_up(img)) for img in data]
             else:
                 print("Final model, no generation for next model")

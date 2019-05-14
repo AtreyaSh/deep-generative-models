@@ -68,6 +68,8 @@ class RBM:
             for batch in tensors:
                 if j % 20 == 0:
                     print("Batch number: %s/%d" % (j,num_samples))
+                    if j != 0:
+                        tf.print("Mean weight-gradient 2-norm: ", log/j)
                 # compute starting gradient
                 batch = tf.stack(batch)
                 u = tf.map_fn(self.prop_up,batch)
@@ -99,6 +101,8 @@ class RBM:
             for batch in tensors:
                 if j % 20 == 0:
                     print("Batch number: %s/%d" % (j,num_samples))
+                    if j != 0:
+                        tf.print("Mean weight-gradient 2-norm: ", log/j)
                 # compute starting gradient
                 batch = tf.stack(batch)
                 u = tf.map_fn(self.prop_up,batch)

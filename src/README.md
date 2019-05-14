@@ -43,7 +43,7 @@ required named arguments:
 This script currently supports TensorFlow eager execution for easy debugging. For conversion to AutoGraph, minor modifications such as additions of `@tf.function` calls would need to be made. The script in `train_DBM.py` will train a corresponding DBM and write it as a pickle into a local log directory in `/src/pickles`. An example of running `train_DBN.py` is given below:
 
 ```shell
-$ python3 train_DBN.py --epochs 2 --dimensions 784,500,500,1000
+$ python3 train_DBN.py --epochs 2 --dimensions 784,500,784
 ```
 
 Pre-trained DBNs for MNIST, fashion-MNIST and LFW cropped faces been saved in the `/src/pickles` directory.
