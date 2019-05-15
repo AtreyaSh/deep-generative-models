@@ -7,17 +7,17 @@ import datetime
 import argparse
 import re
 import glob
-from obj.DBN import DBN
+from obj.DBM import DBM
 import tensorflow as tf
 import numpy as np
 import matplotlib.image as mpimg
 from skimage.transform import resize
 
 ################################
-# train DBN from MNIST
+# train DBM from MNIST
 ################################
 
-def trainDBN(data, learning_rate, k1, k2, epochs, batch_size, dims):
+def trainDBM(data, learning_rate, k1, k2, epochs, batch_size, dims):
     # import data
     print("importing training data")
     if data == "fashion_mnist":
@@ -41,15 +41,15 @@ def trainDBN(data, learning_rate, k1, k2, epochs, batch_size, dims):
         # auto conversion to probabilities in earlier step
         x_train = [tf.cast(tf.reshape(x,shape=(784,1)),"float32") for x in x_train]
     # create log directory
-    current_time = getCurrentTime()+"_"+re.sub(",","_",dims)+"_"+data+"_dbn"
+    current_time = getCurrentTime()+"_"+re.sub(",","_",dims)+"_"+data+"_dbm"
     os.makedirs("pickles/"+current_time)
     # parse string input into integer list
     dims = [int(el) for el in dims.split(",")]
-    dbn = DBN(dims, learning_rate, k1, k2, epochs, batch_size)
-    dbn.train_PCD(x_train)
-    # dump dbn pickle
-    f = open("pickles/"+current_time+"/dbn.pickle", "wb")
-    pickle.dump(dbn, f, protocol=pickle.HIGHEST_PROTOCOL)
+    dbm = DBM(dims, learning_rate, k1, k2, epochs, batch_size)
+    dbm.train_PCD(x_train)
+    # dump dbm pickle
+    f = open("pickles/"+current_time+"/dbm.pickle", "wb")
+    pickle.dump(dbm, f, protocol=pickle.HIGHEST_PROTOCOL)
     f.close()
 
 def getCurrentTime():
@@ -62,7 +62,7 @@ def getCurrentTime():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, default="mnist",
-                        help="data source to train DBN, possibilities are 'mnist', 'fashion_mnist' and 'faces', defaults to 'mnist'")
+                        help="data source to train DBM, possibilities are 'mnist', 'fashion_mnist' and 'faces', defaults to 'mnist'")
     parser.add_argument("--learning-rate", type=float, default=0.01,
                         help="learning rate for stacked RBMs, defaults to 0.01")
     parser.add_argument("--k1", type=int, default=1,
@@ -78,5 +78,5 @@ if __name__ == "__main__":
                                help="consecutive enumeration of visible and hidden layers separated by a comma character, eg. 784,500,784,500", 
                                required=True)
     args = parser.parse_args()
-    # train DBN based on parameters
-    trainDBN(args.data,args.learning_rate,args.k1,args.k2,args.epochs,args.batch_size,args.dimensions)
+    # train DBM based on parameters
+    trainDBM(args.data,args.learning_rate,args.k1,args.k2,args.epochs,args.batch_size,args.dimensions)

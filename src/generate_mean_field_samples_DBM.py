@@ -5,14 +5,15 @@ import tensorflow as tf
 import argparse
 import os
 import matplotlib.pyplot as plt
+from obj.DBM import DBM
 from aux.updateClass import readClass
 
 def plotSamples(namePickle,nameFile,dim):
-    dbn = readClass(namePickle)
-    samples = dbn.generate_visible_samples(mean_field=True)
-    plotSamples_DBN(samples, nameFile, dim)
+    dbm = readClass(namePickle)
+    samples = dbm.block_gibbs_sampling()
+    plotSamples_DBM(samples, nameFile, dim)
 
-def plotSamples_DBN(obj, name, dim = 28, nrows = 10, ncols = 10):
+def plotSamples_DBM(obj, name, dim = 28, nrows = 10, ncols = 10):
     fig, ax = plt.subplots(nrows=nrows, ncols=ncols)
     i = 0
     for row in ax:
@@ -30,7 +31,7 @@ if __name__ == "__main__":
                         help="square dimensions on which to remap images, defaults to 28")
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('-p', '--pickle', type=str, 
-                               help="name of directory where dbn.pickle is stored",
+                               help="name of directory where 'dbm.pickle' is stored",
                                required=True)
     args = parser.parse_args()
     plotSamples(args.pickle,args.out,args.dim)

@@ -29,12 +29,12 @@ class RBM:
         self.batch_size = batch_size
 
     # @tf.function
-    def gibbs_sampling(self, v, k = 5):
+    def gibbs_sampling(self, v, k = 5, q1=1, q2=1):
         """ function for gibbs sampling for k-iterations """
         for _ in range(k):
-            binomial_probs = self.prop_up(v)
+            binomial_probs = self.prop_up(v,q1)
             h = self.random_sample(binomial_probs)
-            binomial_probs = self.prop_down(h)
+            binomial_probs = self.prop_down(h,q2)
             v = self.random_sample(binomial_probs)
         return v
     
@@ -43,13 +43,19 @@ class RBM:
         return tf.where(tf.random.uniform(shape=tf.shape(input_v)) - input_v < 0,
                          tf.ones(tf.shape(input_v)), tf.zeros(tf.shape(input_v)))
         
-    def prop_up(self, v):
+    def prop_up(self, v, q=1, sig = True):
         """ upwards mean-field propagation """
-        return tf.nn.sigmoid(tf.add(self.b_h, tf.matmul(self.w,v)))
-
-    def prop_down(self, h):
+        if sig:
+            return q*tf.nn.sigmoid(tf.add(self.b_h, tf.matmul(self.w,v)))
+        else:
+            return tf.add(self.b_h, tf.matmul(self.w,v))
+        
+    def prop_down(self, h, q=1, sig = True):
         """ downwards mean-field propagation """
-        return tf.sigmoid(tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h)))
+        if sig:
+            return q*tf.sigmoid(tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h)))
+        else:
+            return tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h))
 
     def chunks(self, l, n):
         """ create chunks/batches from input data """
@@ -57,7 +63,7 @@ class RBM:
             yield l[i:i + n]
     
     # @tf.function
-    def contrastive_divergence_k(self, tensors):
+    def contrastive_divergence_k(self, tensors, position = None):
         """ learn and update weights/biases via PCD-k algorithm """
         tensors = list(self.chunks(tensors,self.batch_size))
         num_samples = len(tensors)
@@ -72,15 +78,32 @@ class RBM:
                         tf.print("Mean weight-gradient 2-norm: ", log/j)
                 # compute starting gradient
                 batch = tf.stack(batch)
-                u = tf.map_fn(self.prop_up,batch)
-                g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
-                # compute sampled gibbs
-                v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2),batch)
-                u_new = tf.map_fn(self.prop_up,v_new)
-                # compute change to gradient, average gradient shifts before adding
-                g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                if position == None:
+                    u = tf.map_fn(self.prop_up,batch)
+                    g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
+                    # compute sampled gibbs
+                    v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2),batch)
+                    u_new = tf.map_fn(self.prop_up,v_new)
+                    # compute change to gradient, average gradient shifts before adding
+                    g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                elif position == "bottom":
+                    u = tf.map_fn(lambda x: self.prop_up(x,q=2),batch)
+                    g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
+                    # compute sampled gibbs
+                    v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2,q1=2,q2=1),batch)
+                    u_new = tf.map_fn(lambda x: self.prop_up(x,q=2),v_new)
+                    # compute change to gradient, average gradient shifts before adding
+                    g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                elif position == "top":
+                    u = tf.map_fn(lambda x: self.prop_up(x,q=1),batch)
+                    g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
+                    # compute sampled gibbs
+                    v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2,q1=1,q2=2),batch)
+                    u_new = tf.map_fn(lambda x: self.prop_up(x,q=1),v_new)
+                    # compute change to gradient, average gradient shifts before adding
+                    g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                # update gradient and log result
                 g += g_delta
-                # log norm of new gradient
                 log += tf.norm(g,ord=2)
                 j += 1
                 # update parameters
@@ -90,7 +113,7 @@ class RBM:
             tf.print("Mean weight-gradient 2-norm:", log/num_samples)
     
     # @tf.function
-    def persistive_contrastive_divergence_k(self, tensors):
+    def persistive_contrastive_divergence_k(self, tensors, position = None):
         """ learn and update weights/biases via PCD-k algorithm """
         tensors = list(self.chunks(tensors,self.batch_size))
         num_samples = len(tensors)
@@ -105,16 +128,38 @@ class RBM:
                         tf.print("Mean weight-gradient 2-norm: ", log/j)
                 # compute starting gradient
                 batch = tf.stack(batch)
-                u = tf.map_fn(self.prop_up,batch)
-                g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
-                # compute sampled gibbs
-                batch = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k1),batch)
-                v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2),batch)
-                u_new = tf.map_fn(self.prop_up,v_new)
-                # compute change to gradient, average gradient shifts before adding
-                g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                if position == None:
+                    u = tf.map_fn(self.prop_up,batch)
+                    g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
+                    # compute sampled gibbs
+                    if j == 0:
+                        v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k1),batch)
+                    v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2),v_new)
+                    u_new = tf.map_fn(self.prop_up,v_new)
+                    # compute change to gradient, average gradient shifts before adding
+                    g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                elif position == "bottom":
+                    u = tf.map_fn(lambda x: self.prop_up(x,q=2),batch)
+                    g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
+                    # compute sampled gibbs
+                    if j == 0:
+                        v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k1,q1=2,q2=1),batch)
+                    v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2,q1=2,q2=1),v_new)
+                    u_new = tf.map_fn(lambda x: self.prop_up(x,q=2),v_new)
+                    # compute change to gradient, average gradient shifts before adding
+                    g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                elif position == "top":
+                    u = tf.map_fn(lambda x: self.prop_up(x,q=1),batch)
+                    g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
+                    # compute sampled gibbs
+                    if j == 0:
+                        v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k1,q1=1,q2=2),batch)
+                    v_new = tf.map_fn(lambda x: self.gibbs_sampling(x,self.k2,q1=1,q2=2),v_new)
+                    u_new = tf.map_fn(lambda x: self.prop_up(x,q=1),v_new)
+                    # compute change to gradient, average gradient shifts before adding
+                    g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
+                # update gradient and log result
                 g += g_delta
-                # log norm of new gradient
                 log += tf.norm(g,ord=2)
                 j += 1
                 # update parameters
