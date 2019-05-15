@@ -28,7 +28,6 @@ class RBM:
         self.epochs = epochs
         self.batch_size = batch_size
 
-    # @tf.function
     def gibbs_sampling(self, v, k = 5, q1=1, q2=1):
         """ function for gibbs sampling for k-iterations """
         for _ in range(k):
@@ -59,23 +58,42 @@ class RBM:
 
     def chunks(self, l, n):
         """ create chunks/batches from input data """
-        for i in range(0, len(l), n):
-            yield l[i:i + n]
+        return [l[i:i + n] for i in range(0, len(l), n)]
     
+    def adam(self,g,t,m=None,r=None):
+        beta1 = .9
+        beta2 = .999
+        eps = 1e-8
+        if m == None and r == None:
+            m = tf.zeros(shape=tf.shape(g),dtype="float32")
+            r = m = tf.zeros(shape=tf.shape(g),dtype="float32")
+        m = beta1*m + (1.-beta1)*g
+        r = beta2*r + (1.-beta2)*tf.math.square(g)
+        m_k_hat = m/(1.-beta1**(t+1))
+        r_k_hat = r/(1.-beta2**(t+1))
+        out = tf.math.divide(m_k_hat,tf.math.add(tf.math.sqrt(r_k_hat),eps))
+        return out, m, r
+        
     # @tf.function
     def contrastive_divergence_k(self, tensors, position = None):
         """ learn and update weights/biases via PCD-k algorithm """
-        tensors = list(self.chunks(tensors,self.batch_size))
+        tensors = self.chunks(tensors,self.batch_size)
         num_samples = len(tensors)
+        # augment last batch in case missing some data
+        if len(tensors[num_samples-1]) != self.batch_size:
+            diff = self.batch_size - len(tensors[num_samples-1])
+            tensors[num_samples-1].extend(tensors[0][:diff])
         for i in range(self.epochs):
             j = 0
-            log = 0
+            log_g = 0
+            log_h = 0
+            log_v = 0
             print("Epoch: %s" % str(i+1))
             for batch in tensors:
                 if j % 20 == 0:
                     print("Batch number: %s/%d" % (j,num_samples))
                     if j != 0:
-                        tf.print("Mean weight-gradient 2-norm: ", log/j)
+                        tf.print("Mean gradient 2-norm:", tf.reduce_mean([log_g/j,log_h/j,log_v/j]))
                 # compute starting gradient
                 batch = tf.stack(batch)
                 if position == None:
@@ -104,28 +122,48 @@ class RBM:
                     g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
                 # update gradient and log result
                 g += g_delta
-                log += tf.norm(g,ord=2)
+                g_h = tf.reduce_mean(tf.add(u,-1*u_new),0)
+                g_v = tf.reduce_mean(tf.add(batch,-1*v_new),0)
+                # update counters
+                log_g += tf.norm(g,ord=2)
+                log_h += tf.norm(g_h,ord=2)
+                log_v += tf.norm(g_v,ord=2)
                 j += 1
+                # perform adam operation to all gradients
+                if j == 0:
+                    g,m,r = self.adam(g,j)
+                    g_h,m_h,r_h = self.adam(g_h,j)
+                    g_v,m_v,r_v = self.adam(g_v,j)
+                else:
+                    g,m,r = self.adam(g,j,m,r)
+                    g_h,m_h,r_h = self.adam(g_h,j,m_h,r_h)
+                    g_v,m_v,r_v = self.adam(g_v,j,m_v,r_v)
                 # update parameters
                 self.w.assign_add(self.learning_rate*g)
-                self.b_h.assign_add(self.learning_rate*tf.reduce_mean(tf.add(u,-1*u_new),0))
-                self.b_v.assign_add(self.learning_rate*tf.reduce_mean(tf.add(batch,-1*v_new),0))
-            tf.print("Mean weight-gradient 2-norm:", log/num_samples)
+                self.b_h.assign_add(self.learning_rate*g_h)
+                self.b_v.assign_add(self.learning_rate*g_v)
+            tf.print("Mean gradient 2-norm:", tf.reduce_mean([log_g/j,log_h/j,log_v/j]))
     
     # @tf.function
     def persistive_contrastive_divergence_k(self, tensors, position = None):
         """ learn and update weights/biases via PCD-k algorithm """
-        tensors = list(self.chunks(tensors,self.batch_size))
+        tensors = self.chunks(tensors,self.batch_size)
         num_samples = len(tensors)
+        # augment last batch in case missing some data
+        if len(tensors[num_samples-1]) != self.batch_size:
+            diff = self.batch_size - len(tensors[num_samples-1])
+            tensors[num_samples-1].extend(tensors[0][:diff])
         for i in range(self.epochs):
             j = 0
-            log = 0
+            log_g = 0
+            log_h = 0
+            log_v = 0
             print("Epoch: %s" % str(i+1))
             for batch in tensors:
                 if j % 20 == 0:
                     print("Batch number: %s/%d" % (j,num_samples))
                     if j != 0:
-                        tf.print("Mean weight-gradient 2-norm: ", log/j)
+                        tf.print("Mean gradient 2-norm: ", tf.reduce_mean([log_g/j,log_h/j,log_v/j]))
                 # compute starting gradient
                 batch = tf.stack(batch)
                 if position == None:
@@ -160,10 +198,25 @@ class RBM:
                     g_delta = -1*tf.reduce_mean(tf.stack([tf.matmul(u_new[i],tf.transpose(v_new[i])) for i in range(self.batch_size)]),0)
                 # update gradient and log result
                 g += g_delta
-                log += tf.norm(g,ord=2)
+                g_h = tf.reduce_mean(tf.add(u,-1*u_new),0)
+                g_v = tf.reduce_mean(tf.add(batch,-1*v_new),0)
+                # update gradient-logs
+                log_g += tf.norm(g,ord=2)
+                log_h += tf.norm(g_h,ord=2)
+                log_v += tf.norm(g_v,ord=2)
+                # perform adam operation to all gradients
+                if j == 0:
+                    g,m,r = self.adam(g,j)
+                    g_h,m_h,r_h = self.adam(g_h,j)
+                    g_v,m_v,r_v = self.adam(g_v,j)
+                else:
+                    g,m,r = self.adam(g,j,m,r)
+                    g_h,m_h,r_h = self.adam(g_h,j,m_h,r_h)
+                    g_v,m_v,r_v = self.adam(g_v,j,m_v,r_v)
+                # update counter
                 j += 1
                 # update parameters
                 self.w.assign_add(self.learning_rate*g)
-                self.b_h.assign_add(self.learning_rate*tf.reduce_mean(tf.add(u,-1*u_new),0))
-                self.b_v.assign_add(self.learning_rate*tf.reduce_mean(tf.add(batch,-1*v_new),0))
-            tf.print("Mean weight-gradient 2-norm:", log/num_samples)
+                self.b_h.assign_add(self.learning_rate*g_h)
+                self.b_v.assign_add(self.learning_rate*g_v)
+            tf.print("Mean gradient 2-norm:", tf.reduce_mean([log_g/j,log_h/j,log_v/j]))
