@@ -1,6 +1,6 @@
 ## Deep Generative Models using TensorFlow 2.0 Alpha
 
-This repository offers source-code for training Deep Belief Networks (DBN) and Deep Boltzmann Machines (DBM). This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
+This repository offers source-code for training Deep Belief Networks (DBN) and Deep Boltzmann Machines (DBM), which are constructed from underlying Restricted Boltzmann Machines (RBM). This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
 
 In order to download/deploy the LFW cropped grayscale data, you can execute the following:
 

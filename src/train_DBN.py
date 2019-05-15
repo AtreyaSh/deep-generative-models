@@ -14,7 +14,7 @@ import matplotlib.image as mpimg
 from skimage.transform import resize
 
 ################################
-# train DBN from MNIST
+# train DBN from input data
 ################################
 
 def trainDBN(data, learning_rate, k1, k2, epochs, batch_size, dims):
