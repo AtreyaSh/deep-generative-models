@@ -61,6 +61,7 @@ class RBM:
         return [l[i:i + n] for i in range(0, len(l), n)]
     
     def adam(self,g,t,m=None,r=None):
+        """ Adaptive Moment Estimation (Adam) gradient descent optimization """
         beta1 = .9
         beta2 = .999
         eps = 1e-8
