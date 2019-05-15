@@ -50,7 +50,7 @@ class DBM:
     def block_gibbs_sampling(self, k = 15, indices = None, number_samples = 100, mean_field = True):
         data = self.data[0]
         if indices == None:
-            indices = sample(range(len(data)), 100)
+            indices = sample(range(len(data)), number_samples)
         data = [data[ind] for ind in indices]
         for q in range(k):
             if q == k-1 and mean_field:

@@ -5,15 +5,19 @@ import tensorflow as tf
 import argparse
 import os
 import matplotlib.pyplot as plt
-from obj.DBM import DBM
+from obj.DBN import DBN
 from aux.updateClass import readClass
 
-def plotSamples(namePickle,nameFile,dim):
-    dbm = readClass(namePickle)
-    samples = dbm.block_gibbs_sampling()
-    plotSamples_DBM(samples, nameFile, dim)
+def plotSamples(namePickle,nameFile,dim,mf):
+    if mf == 1:
+        mf = True
+    else:
+        mf = False
+    dbn = readClass(namePickle)
+    samples = dbn.generate_visible_samples(mean_field = mf)
+    plotSamples_DBN(samples, nameFile, dim)
 
-def plotSamples_DBM(obj, name, dim = 28, nrows = 10, ncols = 10):
+def plotSamples_DBN(obj, name, dim = 28, nrows = 10, ncols = 10):
     fig, ax = plt.subplots(nrows=nrows, ncols=ncols)
     i = 0
     for row in ax:
@@ -29,9 +33,11 @@ if __name__ == "__main__":
                         help="file name of output png, defaults to 'test'")
     parser.add_argument("--dim", type=int, default=28,
                         help="square dimensions on which to remap images, defaults to 28")
+    parser.add_argument("--mean-field", type=int, default=1,
+                        help="draw actual samples (0) or mean-field samples (1), defaults to 1")
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('-p', '--pickle', type=str, 
-                               help="name of directory where 'dbm.pickle' is stored",
+                               help="name of directory where dbn.pickle is stored",
                                required=True)
     args = parser.parse_args()
-    plotSamples(args.pickle,args.out,args.dim)
+    plotSamples(args.pickle,args.out,args.dim,args.mean_field)

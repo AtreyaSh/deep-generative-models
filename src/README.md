@@ -16,7 +16,7 @@ Further information on training a DBN can be found in this [guide](/src/docs/DBN
 
 Further information on training a DBM can be found in this [guide](/src/docs/DBM.md).
 
-## Literature
+### Literature
 
 Algorithms in this source-code were adapted from Salakhutdinov and Hinton, 2009; bibtex citation can be found below.
 
@@ -30,6 +30,6 @@ Algorithms in this source-code were adapted from Salakhutdinov and Hinton, 2009;
 }
 ```
 
-## Developments
+### Developments
 
 Further developments are summarized in a local [change log](/docs/todos.md).

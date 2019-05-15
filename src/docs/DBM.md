@@ -41,3 +41,7 @@ Pre-trained DBMs are not offered in this repository due to large memory requirem
 Using a pre-trained DBM, we generated 100 random (mean-field) samples of MNIST images:
 
 <img src="/img/sample19.png" width="800">
+
+Similarly, we generated 100 random (mean-field) samples of fashion-MNIST images:
+
+<img src="/img/sample22.png" width="800">

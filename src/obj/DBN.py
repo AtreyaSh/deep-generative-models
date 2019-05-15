@@ -37,7 +37,7 @@ class DBN:
                 print("Final model, no generation for next model")
                 self.top_samples = data
 
-    def generate_visible_samples(self, k = 15, number_samples = 100, indices = None, mean_field = False):
+    def generate_visible_samples(self, k = 15, number_samples = 100, indices = None, mean_field = True):
         """ generate visible samples from last RBMs input samples """
         print("Gibbs sampling at inner RBM: %s" % str(len(self.models)))
         samples = self.top_samples
