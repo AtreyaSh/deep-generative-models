@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+from tensorflow.python.ops import control_flow_util
+control_flow_util.ENABLE_CONTROL_FLOW_V2 = True
 import tensorflow as tf
 from random import sample 
 from .RBM import RBM
-from tensorflow.python.ops import control_flow_util
-control_flow_util.ENABLE_CONTROL_FLOW_V2 = True
 
 class DBN:
     """

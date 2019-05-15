@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+from tensorflow.python.ops import control_flow_util
+control_flow_util.ENABLE_CONTROL_FLOW_V2 = True
 import tensorflow as tf
 from random import sample
 from .RBM import RBM
-from tensorflow.python.ops import control_flow_util
-control_flow_util.ENABLE_CONTROL_FLOW_V2 = True
 
 class DBM:
     """
@@ -48,6 +48,7 @@ class DBM:
             self.data.append(data)
 
     def block_gibbs_sampling(self, k = 15, indices = None, number_samples = 100, mean_field = True):
+        """ generate samples using even/odd layers which compromise overall Gibbs sampling """
         data = self.data[0]
         if indices == None:
             indices = sample(range(len(data)), number_samples)
