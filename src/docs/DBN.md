@@ -38,7 +38,7 @@ Pre-trained DBNs for MNIST, fashion-MNIST and LFW cropped faces have been saved 
 
 ### Mean-Field Sample Visualizations
 
-Using the pre-trained DBN, we generated 100 random (mean-field) samples of MNIST images:
+Using a pre-trained DBN, we generated 100 random (mean-field) samples of MNIST images:
 
 <img src="/img/sample.png" width="800">
 

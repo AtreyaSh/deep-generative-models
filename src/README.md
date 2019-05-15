@@ -8,11 +8,11 @@ In order to download/deploy the LFW cropped grayscale data, you can execute the 
 $ cd ./data/ && ./lfw_setup.sh
 ```
 
-### Deep Belief Network (DBN)
+### 1. Deep Belief Network (DBN)
 
 Further information on training a DBN can be found in this [guide](/src/docs/DBN.md).
 
-### Deep Boltzmann Machine (DBM)
+### 2. Deep Boltzmann Machine (DBM)
 
 Further information on training a DBM can be found in this [guide](/src/docs/DBM.md).
 
