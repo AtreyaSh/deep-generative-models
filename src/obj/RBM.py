@@ -80,7 +80,7 @@ class RBM:
         
     # @tf.function
     def contrastive_divergence_k(self, tensors, position = None):
-        """ learn and update weights/biases via PCD-k algorithm """
+        """ learn and update weights/biases via CD-k algorithm """
         tensors = self.chunks(tensors,self.batch_size)
         num_samples = len(tensors)
         # augment last batch in case missing some data
@@ -128,11 +128,10 @@ class RBM:
                 g += g_delta
                 g_h = tf.reduce_mean(tf.add(u,-1*u_new),0)
                 g_v = tf.reduce_mean(tf.add(batch,-1*v_new),0)
-                # update counters
+                # update gradient-logs
                 log_g += tf.norm(g,ord=2)
                 log_h += tf.norm(g_h,ord=2)
                 log_v += tf.norm(g_v,ord=2)
-                j += 1
                 # perform adam operation to all gradients
                 if j == 0:
                     g,m,r = self.adam(g,j)
@@ -142,6 +141,8 @@ class RBM:
                     g,m,r = self.adam(g,j,m,r)
                     g_h,m_h,r_h = self.adam(g_h,j,m_h,r_h)
                     g_v,m_v,r_v = self.adam(g_v,j,m_v,r_v)
+                # update counter
+                j += 1
                 # update parameters
                 self.w.assign_add(self.learning_rate*g)
                 self.b_h.assign_add(self.learning_rate*g_h)
