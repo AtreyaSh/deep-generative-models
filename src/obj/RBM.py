@@ -52,7 +52,7 @@ class RBM:
     def prop_down(self, h, q=1, sig = True):
         """ downwards mean-field propagation """
         if sig:
-            return q*tf.sigmoid(tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h)))
+            return q*tf.nn.sigmoid(tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h)))
         else:
             return tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h))
 
@@ -70,14 +70,14 @@ class RBM:
         eps = 1e-8
         if m == None and r == None:
             m = tf.zeros(shape=tf.shape(g),dtype="float32")
-            r = m = tf.zeros(shape=tf.shape(g),dtype="float32")
+            r = tf.zeros(shape=tf.shape(g),dtype="float32")
         m = beta1*m + (1.-beta1)*g
         r = beta2*r + (1.-beta2)*tf.math.square(g)
         m_k_hat = m/(1.-beta1**(t+1))
         r_k_hat = r/(1.-beta2**(t+1))
         out = tf.math.divide(m_k_hat,tf.math.add(tf.math.sqrt(r_k_hat),eps))
         return out, m, r
-        
+
     # @tf.function
     def contrastive_divergence_k(self, tensors, position = None):
         """ learn and update weights/biases via CD-k algorithm """
