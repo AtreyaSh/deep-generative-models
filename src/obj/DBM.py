@@ -35,8 +35,12 @@ class DBM:
             else:
                 print("Intermediate RBM")
                 self.models[i].w = tf.Variable(2*self.models[i].w)
+                self.models[i].b_h = tf.Variable(2*self.models[i].b_h)
+                self.models[i].b_v = tf.Variable(2*self.models[i].b_v)
                 self.models[i].persistive_contrastive_divergence_k(data)
                 self.models[i].w = tf.Variable(0.5*self.models[i].w)
+                self.models[i].b_h = tf.Variable(0.5*self.models[i].b_h)
+                self.models[i].b_v = tf.Variable(0.5*self.models[i].b_v)
             if i != len(self.models)-1:
                 print("Sampling data for model: %s" % str(i+2))
                 self.models[i+1].b_v = tf.Variable(self.models[i].b_h)

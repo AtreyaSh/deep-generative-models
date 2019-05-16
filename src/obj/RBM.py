@@ -45,14 +45,14 @@ class RBM:
     def prop_up(self, v, q=1, sig = True):
         """ upwards mean-field propagation """
         if sig:
-            return q*tf.nn.sigmoid(tf.add(self.b_h, tf.matmul(self.w,v)))
+            return tf.nn.sigmoid(q*tf.add(self.b_h, tf.matmul(self.w,v)))
         else:
             return tf.add(self.b_h, tf.matmul(self.w,v))
         
     def prop_down(self, h, q=1, sig = True):
         """ downwards mean-field propagation """
         if sig:
-            return q*tf.nn.sigmoid(tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h)))
+            return tf.nn.sigmoid(q*tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h)))
         else:
             return tf.add(self.b_v, tf.matmul(tf.transpose(self.w),h))
 
@@ -61,7 +61,7 @@ class RBM:
         return [l[i:i + n] for i in range(0, len(l), n)]
     
     def adam(self,g,t,m=None,r=None):
-        """ 
+        """
         adam gradient descent optimization
         adapted from https://wiseodd.github.io/techblog/2016/06/22/nn-optimization/
         """
