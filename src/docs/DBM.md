@@ -45,3 +45,7 @@ Using a pre-trained DBM, we generated 100 random (mean-field) samples of MNIST i
 Similarly, we generated 100 random (mean-field) samples of fashion-MNIST images:
 
 <img src="/img/sample22.png" width="800">
+
+The same process was done for 100 random (mean-field) samples of LFW cropped-face images. Here, the results of generating samples was not as clear-cut as per MNIST and fashion-MNIST. This is due to the lack of sparseness in face vectors. As a result, we had to force sparseness in the vectors by converting pixels with low intensities to zero.
+
+<img src="/img/sample24.png" width="800">
