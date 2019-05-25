@@ -1,0 +1,2 @@
+data,learning_rate,epochs,batch_size,im_dim,num_filters,latent_dimensions
+faces,0.01,10,20,28,32,2

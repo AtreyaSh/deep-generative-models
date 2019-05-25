@@ -22,10 +22,10 @@ def trainDBM(data, learning_rate, k1, k2, epochs, batch_size, dims):
     print("importing training data")
     if data == "fashion_mnist":
         fashion_mnist = tf.keras.datasets.fashion_mnist
-        (x_train, y_train), (_,_) = fashion_mnist.load_data()
+        (x_train, _), (_,_) = fashion_mnist.load_data()
     elif data == "mnist":
         mnist = tf.keras.datasets.mnist
-        (x_train, y_train), (_,_) = mnist.load_data()
+        (x_train, _), (_,_) = mnist.load_data()
     elif data == "faces":
         x_train = [resize(mpimg.imread(file),(28,28)) for file in glob.glob("data/faces/*")]
         x_train = np.asarray(x_train)

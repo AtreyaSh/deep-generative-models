@@ -16,6 +16,10 @@ Further information on training a DBN can be found in this [guide](/src/docs/DBN
 
 Further information on training a DBM can be found in this [guide](/src/docs/DBM.md).
 
+### 3. Variational Auto-Encoder (VAE)
+
+Further information on training a VAE can be found in this [guide](/src/docs/VAE.md).
+
 ### Literature
 
 Algorithms in this source-code were adapted from Salakhutdinov and Hinton, 2009; bibtex citation can be found below.

@@ -14,3 +14,10 @@
 
 ### tf2 autograph integration
 * add autograph call to DBN/DBM and test with Google GPU for optimization
+
+### VAE
+* generate smooth transition gif
+* implement 2d-discriminator (requires labels)
+* consider changing saved data dirname
+* add NN schematics to github repo
+* look into formulas here for log_pdf
