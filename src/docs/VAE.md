@@ -64,20 +64,20 @@ To visualize the smoothness of changes in the latent manifold, we animated the a
 
 **MNIST:**
 
-<img src="/img/vae_mnist.gif" width="500">
+<img src="/img/vae_mnist.gif" width="250">
 
 **Fashion-MNIST:**
 
-<img src="/img/vae_fashion_mnist.gif" width="500">
+<img src="/img/vae_fashion_mnist.gif" width="250">
 
 **LFW Faces, 2-d latent space:**
 
-<img src="/img/vae_faces_2.gif" width="500">
+<img src="/img/vae_faces_2.gif" width="250">
 
 **LFW Faces, 6-d latent space:**
 
-<img src="/img/vae_faces_6.gif" width="500">
+<img src="/img/vae_faces_6.gif" width="250">
 
 **LFW Faces, 10-d latent space:**
 
-<img src="/img/vae_faces_10.gif" width="500">
+<img src="/img/vae_faces_10.gif" width="250">
