@@ -50,11 +50,11 @@ The same process was done for 1600 samples of LFW cropped-face images. The image
 
 <img src="/img/vae_faces_2.png" width="800">
 
-The image below shows projection 2-dimensional projected variation on a 6-dimensional latent space.
+The image below shows 2-dimensional projected variation on a 6-dimensional latent space.
 
 <img src="/img/vae_faces_6.png" width="800">
 
-The image below shows projection 2-dimensional projected variation on a 10-dimensional latent space.
+The image below shows 2-dimensional projected variation on a 10-dimensional latent space.
 
 <img src="/img/vae_faces_10.png" width="800">
 
