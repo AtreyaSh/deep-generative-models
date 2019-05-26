@@ -46,6 +46,30 @@ Similarly, we generated 1600 manifold samples of fashion-MNIST images:
 
 <img src="/img/vae_fashion_mnist.png" width="800">
 
-The same process was done for 1600 samples of LFW cropped-face images:
+The same process was done for 1600 samples of LFW cropped-face images. The image below shows variation on a 2-dimensional latent space.
 
-<img src="/img/vae_faces.png" width="800">
+<img src="/img/vae_faces_2.png" width="800">
+
+The image below shows projection 2-dimensional variation on a 6-dimensional latent space.
+
+<img src="/img/vae_faces_6.png" width="800">
+
+### VAE Latent Manifold Animation
+
+To visualize the smoothness of changes in the latent manifold, we animated the above plots in a spiral sequence.
+
+**MNIST:**
+
+<img src="/img/vae_mnist.gif" width="800">
+
+**Fashion-MNIST:**
+
+<img src="/img/vae_fashion_mnist.gif" width="800">
+
+**LFW Faces, 2-d latent space:**
+
+<img src="/img/vae_faces_2.gif" width="800">
+
+**LFW Faces, 6-d latent space:**
+
+<img src="/img/vae_faces_6.gif" width="800">
