@@ -50,9 +50,13 @@ The same process was done for 1600 samples of LFW cropped-face images. The image
 
 <img src="/img/vae_faces_2.png" width="800">
 
-The image below shows projection 2-dimensional variation on a 6-dimensional latent space.
+The image below shows projection 2-dimensional projected variation on a 6-dimensional latent space.
 
 <img src="/img/vae_faces_6.png" width="800">
+
+The image below shows projection 2-dimensional projected variation on a 10-dimensional latent space.
+
+<img src="/img/vae_faces_10.png" width="800">
 
 ### VAE Latent Manifold Animation
 
@@ -60,16 +64,20 @@ To visualize the smoothness of changes in the latent manifold, we animated the a
 
 **MNIST:**
 
-<img src="/img/vae_mnist.gif" width="800">
+<img src="/img/vae_mnist.gif" width="500">
 
 **Fashion-MNIST:**
 
-<img src="/img/vae_fashion_mnist.gif" width="800">
+<img src="/img/vae_fashion_mnist.gif" width="500">
 
 **LFW Faces, 2-d latent space:**
 
-<img src="/img/vae_faces_2.gif" width="800">
+<img src="/img/vae_faces_2.gif" width="500">
 
 **LFW Faces, 6-d latent space:**
 
-<img src="/img/vae_faces_6.gif" width="800">
+<img src="/img/vae_faces_6.gif" width="500">
+
+**LFW Faces, 10-d latent space:**
+
+<img src="/img/vae_faces_10.gif" width="500">

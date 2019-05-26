@@ -33,6 +33,7 @@ def squareToSpiral(d):
     return res
 
 def plotManifold_VAE(namePickle,nameFile,im_dim,grid_size,latent_range,std,num_samples):
+    """ canvas code adapted from https://jmetzen.github.io/2015-11-27/vae.html """
     print("plotting manifold samples")
     dim = pd.read_csv("./pickles/"+namePickle+"/log.csv")["latent_dimensions"][0]
     model = CVAE(dim)
