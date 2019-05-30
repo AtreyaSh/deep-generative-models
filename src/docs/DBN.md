@@ -4,28 +4,28 @@ Here we have summarized documentation regarding the `train_DBN.py` function.
 
 ```
 usage: train_DBN.py [-h] [--data DATA] [--learning-rate LEARNING_RATE]
-                    [--k1 K1] [--k2 K2] [--k3 K3] [--epochs EPOCHS]
+                    [--k1 K1] [--k2 K2] [--epochs EPOCHS]
                     [--batch-size BATCH_SIZE] -d DIMENSIONS
 
 optional arguments:
   -h, --help            show this help message and exit
   --data DATA           data source to train DBN, possibilities are 'mnist',
-                        'fashion_mnist' and 'faces', defaults to 'mnist'
+                        'fashion_mnist' and 'faces' <default: 'mnist'>
   --learning-rate LEARNING_RATE
-                        learning rate for stacked RBMs, defaults to 0.01
-  --k1 K1               number of Gibbs-sampling steps pre-PCD-k algorithm,
-                        defaults to 1
-  --k2 K2               number of Gibbs-sampling steps during PCD-k algorithm,
-                        defaults to 5
-  --epochs EPOCHS       number of overall training data passes for each RBM,
-                        defaults to 1
+                        learning rate for stacked RBMs <default: 0.01>
+  --k1 K1               number of Gibbs-sampling steps pre-PCD-k algorithm
+                        <default: 1>
+  --k2 K2               number of Gibbs-sampling steps during PCD-k algorithm
+                        <default: 5>
+  --epochs EPOCHS       number of overall training data passes for each RBM
+                        <default: 1>
   --batch-size BATCH_SIZE
-                        size of training data batches, defaults to 5
+                        size of training data batches <default: 5>
 
 required named arguments:
   -d DIMENSIONS, --dimensions DIMENSIONS
                         consecutive enumeration of visible and hidden layers
-                        separated by a comma character, eg. 784,500,500,1000
+                        separated by a comma character, eg. 784,500,784,500
 ```
 
 This script currently supports TensorFlow eager execution for easy debugging. For conversion to AutoGraph, minor modifications such as additions of `@tf.function` calls would need to be made. The script in `train_DBN.py` will train a corresponding DBN and write it as a pickle into a local log directory in `/src/pickles`. An example of running `train_DBN.py` is given below:

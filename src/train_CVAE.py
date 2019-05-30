@@ -11,13 +11,13 @@ import numpy as np
 import glob
 from skimage.transform import resize
 import matplotlib.image as mpimg
-from obj.VAE import CVAE
+from obj.CVAE import CVAE
 
 ################################
-# train VAE from input data
+# train CVAE from input data
 ################################
 
-def trainVAE(data,learning_rate,epochs,batch_size,im_dim,num_filters,latent_dimensions):
+def trainCVAE(data,learning_rate,epochs,batch_size,im_dim,num_filters,latent_dimensions):
     # import data
     print("importing training data")
     if data == "fashion_mnist":
@@ -38,14 +38,14 @@ def trainVAE(data,learning_rate,epochs,batch_size,im_dim,num_filters,latent_dime
         train_images[train_images >= .5] = 1.
         train_images[train_images < .5] = 0.
     # create log directory
-    current_time = getCurrentTime()+"_"+re.sub(",","_",str(latent_dimensions))+"_"+data+"_vae"
+    current_time = getCurrentTime()+"_"+re.sub(",","_",str(latent_dimensions))+"_"+data+"_cvae"
     os.makedirs("pickles/"+current_time)
     # create model
     model = CVAE(latent_dim=latent_dimensions, epochs = epochs, batch_size = batch_size, 
                  learning_rate = learning_rate, im_dim = im_dim, n_filters = num_filters)
     model.train(train_images)
     # save model
-    model.save_weights("pickles/"+current_time+"/vae")
+    model.save_weights("pickles/"+current_time+"/cvae")
     csvfile = open('pickles/'+ current_time + '/' + 'log.csv', 'w')
     fieldnames = ["data", "learning_rate", "epochs", "batch_size", "im_dim", "num_filters", "latent_dimensions"]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -65,21 +65,21 @@ def getCurrentTime():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, default="mnist",
-                        help="data source to train VAE, possibilities are 'mnist', 'fashion_mnist' and 'faces', defaults to 'mnist'")
+            help="data source to train CVAE, possibilities are 'mnist', 'fashion_mnist' and 'faces' <default: 'mnist'>")
     parser.add_argument("--learning-rate", type=float, default=0.001,
-                        help="learning rate, defaults to 0.001")
+            help="learning rate, <default: 001>")
     parser.add_argument("--epochs", type=int, default=5,
-                        help="number of epochs for training, defaults to 5")
+            help="number of epochs for training <default: 5>")
     parser.add_argument("--batch-size", type=int, default=50,
-                        help="size of training data batches, defaults to 50")
+            help="size of training data batches <default: 50>")
     parser.add_argument("--im-dim", type=int, default=28,
-                        help="square dimensionality of input images, defaults to 28")
+            help="square dimensionality of input images <default: 28>")
     parser.add_argument("--num-filters", type=int, default=32,
-                        help="number of filters to be used in convolutional layers, defaults to 32")
+            help="number of filters to be used in convolutional layers <default: 32>")
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('-l', '--latent-dimensions', type=int,
-                               help="number of central latent dimensions in VAE, 2 dimensions are recommended for quick manifold visualization", 
+                               help="number of central latent dimensions in CVAE, 2 dimensions are recommended for quick manifold visualization", 
                                required=True)
     args = parser.parse_args()
-    # train VAE based on parameters
-    trainVAE(args.data,args.learning_rate,args.epochs,args.batch_size,args.im_dim,args.num_filters,args.latent_dimensions)
+    # train CVAE based on parameters
+    trainCVAE(args.data,args.learning_rate,args.epochs,args.batch_size,args.im_dim,args.num_filters,args.latent_dimensions)

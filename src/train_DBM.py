@@ -62,17 +62,17 @@ def getCurrentTime():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, default="mnist",
-                        help="data source to train DBM, possibilities are 'mnist', 'fashion_mnist' and 'faces', defaults to 'mnist'")
+            help="data source to train DBM, possibilities are 'mnist', 'fashion_mnist' and 'faces' <default: 'mnist'>")
     parser.add_argument("--learning-rate", type=float, default=0.01,
-                        help="learning rate for stacked RBMs, defaults to 0.01")
+            help="learning rate for stacked RBMs <default: 0.01>")
     parser.add_argument("--k1", type=int, default=1,
-                        help="number of Gibbs-sampling steps pre-PCD-k algorithm, defaults to 1")
+            help="number of Gibbs-sampling steps pre-PCD-k algorithm <default: 1>")
     parser.add_argument("--k2", type=int, default=5,
-                        help="number of Gibbs-sampling steps during PCD-k algorithm, defaults to 5")
+            help="number of Gibbs-sampling steps during PCD-k algorithm <default: 5>")
     parser.add_argument("--epochs", type=int, default=1,
-                        help="number of overall training data passes for each RBM, defaults to 1")
+            help="number of overall training data passes for each RBM <default: 1>")
     parser.add_argument("--batch-size", type=int, default=5,
-                        help="size of training data batches, defaults to 5")
+            help="size of training data batches <default: 5>")
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('-d', '--dimensions', type=str, 
                                help="consecutive enumeration of visible and hidden layers separated by a comma character, eg. 784,500,784,500", 

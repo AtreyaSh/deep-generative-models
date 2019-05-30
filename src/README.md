@@ -16,9 +16,9 @@ Further information on training a DBN can be found in this [guide](/src/docs/DBN
 
 Further information on training a DBM can be found in this [guide](/src/docs/DBM.md).
 
-### 3. Variational Auto-Encoder (VAE)
+### 3. Convolutional Variational Auto-Encoder (CVAE)
 
-Further information on training a VAE can be found in this [guide](/src/docs/VAE.md).
+Further information on training a CVAE can be found in this [guide](/src/docs/CVAE.md).
 
 ### Literature
 

@@ -8,10 +8,10 @@ import argparse
 import os
 import imageio
 import pandas as pd
-from obj.VAE import CVAE
+from obj.CVAE import CVAE
 
 ##############################
-# plot VAE manifold
+# plot CVAE manifold
 ##############################
 
 def squareToSpiral(d):
@@ -32,12 +32,12 @@ def squareToSpiral(d):
         D -= 2
     return res
 
-def plotManifold_VAE(namePickle,nameFile,im_dim,grid_size,latent_range,std,num_samples):
+def plotManifold_CVAE(namePickle,nameFile,im_dim,grid_size,latent_range,std,num_samples):
     """ canvas code adapted from https://jmetzen.github.io/2015-11-27/vae.html """
     print("plotting manifold samples")
     dim = pd.read_csv("./pickles/"+namePickle+"/log.csv")["latent_dimensions"][0]
     model = CVAE(dim)
-    model.load_weights("./pickles/"+namePickle+"/vae")
+    model.load_weights("./pickles/"+namePickle+"/cvae")
     nx = ny = grid_size
     x_values = np.linspace(-latent_range, latent_range, nx)
     y_values = np.linspace(-latent_range, latent_range, ny)
@@ -78,7 +78,7 @@ if __name__ == "__main__":
                         help="number of averaging samples per plot cell, defaults to 50")
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('-p', '--pickle', type=str,
-                               help="name of directory where vae weights are stored",
+                               help="name of directory where cvae weights are stored",
                                required=True)
     args = parser.parse_args()
-    plotManifold_VAE(args.pickle,args.out,args.im_dim,args.grid_size,args.latent_range,args.std,args.num_samples)
+    plotManifold_CVAE(args.pickle,args.out,args.im_dim,args.grid_size,args.latent_range,args.std,args.num_samples)
