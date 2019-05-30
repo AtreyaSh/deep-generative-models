@@ -22,7 +22,7 @@ Further information on training a VAE can be found in this [guide](/src/docs/VAE
 
 ### Literature
 
-Algorithms in this source-code were adapted from Salakhutdinov and Hinton, 2009; bibtex citation can be found below.
+Algorithms in this source-code for DBM/DBN/RBMs were adapted from Salakhutdinov and Hinton, 2009; bibtex citation can be found below.
 
 ```
 @inproceedings{salakhutdinov2009deep,

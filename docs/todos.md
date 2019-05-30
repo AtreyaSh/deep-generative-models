@@ -12,6 +12,7 @@
 
 ### RBM architecture
 * output loss alongside gradient norm
+* consider removing data storage, rather have data regenerated upon sampling (less optimal but more compact)
 
 ### new architectures/features
 * implement wake-sleep algorithm for fine-tuning
