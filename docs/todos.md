@@ -4,9 +4,9 @@
 * fix relative pickles issue
 * modify sample functions to allow plots with arbitrary number of samples
 
-### RBM architecture
+### RBM/derivatives
 * output loss alongside gradient norm
-* consider removing data storage, rather have data regenerated upon sampling (less optimal but more compact)
+* for DBN/DBM: consider removing data storage, rather have data regenerated upon sampling (less optimal but more compact)
 
 ### VAE
 * implement 2d-discriminator (requires labels)

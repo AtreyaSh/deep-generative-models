@@ -1,4 +1,4 @@
-## Deep Generative Models using TensorFlow 2.0 Alpha
+## Deep Generative Models using TensorFlow 2.0 Beta
 
 This repository offers source-code for training Restricted Boltzmann Machines (RBM), Deep Belief Networks (DBN) and Deep Boltzmann Machines (DBM) and Convolutional Variational Auto-Encoders (CVAE). This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
 
@@ -26,7 +26,7 @@ Further information on training a CVAE can be found in this [guide](/src/docs/CV
 
 ### Literature
 
-Algorithms in this source-code for DBM/DBN/RBMs were adapted from Salakhutdinov and Hinton, 2009; bibtex citation can be found below.
+Algorithms in this source-code for DBM/DBN/RBMs were adapted from Salakhutdinov and Hinton (2009) with the following bibtex citation:
 
 ```
 @inproceedings{salakhutdinov2009deep,

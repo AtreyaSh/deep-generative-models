@@ -1,4 +1,4 @@
-## Deep Generative Models using TensorFlow 2.0 Alpha
+## Deep Generative Models using TensorFlow 2.0 Beta
 
 This repository contains TensorFlow 2.0 Alpha python (low-level) source-code for deep generative models. This repository prioritizes using low-level tensorflow implementations where possible. The intended purpose is to allow for a more in-depth understanding of corresponding algorithms.
 
