@@ -11,11 +11,11 @@ def updateClass():
     for file in pickles:
         # open file and update functions in classes
         f = open(file,"rb")
-        dbm = pickle.load(f)
+        obj = pickle.load(f)
         f.close()
         # dump pickles back
         f = open(file,"wb")
-        pickle.dump(dbm, f, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
         f.close()
 
 def readClass(name):
@@ -23,6 +23,6 @@ def readClass(name):
     file = glob.glob("./pickles/"+name)
     pickles = glob.glob(file[0]+"/*.pickle")
     f = open(pickles[0],"rb")
-    dbm = pickle.load(f)
+    obj = pickle.load(f)
     f.close()
-    return dbm
+    return obj

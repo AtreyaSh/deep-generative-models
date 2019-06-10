@@ -1,6 +1,6 @@
 ## Deep Generative Models using TensorFlow 2.0 Alpha
 
-This repository offers source-code for training Deep Belief Networks (DBN) and Deep Boltzmann Machines (DBM), which are constructed from underlying Restricted Boltzmann Machines (RBM). This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
+This repository offers source-code for training Restricted Boltzmann Machines (RBM), Deep Belief Networks (DBN) and Deep Boltzmann Machines (DBM) and Convolutional Variational Auto-Encoders (CVAE). This code has default functionalities for MNIST, fashion-MNIST and [Labeled Faces in the Wild](http://conradsanderson.id.au/lfwcrop/) (LFW) cropped input data. However, the code and its internal classes can principally be used for other data, without any particular hard-coding to the above-specified datasets.
 
 In order to download/deploy the LFW cropped grayscale data, you can execute the following:
 
@@ -8,15 +8,19 @@ In order to download/deploy the LFW cropped grayscale data, you can execute the 
 $ cd ./data/ && ./lfw_setup.sh
 ```
 
-### 1. Deep Belief Network (DBN)
+### 1. Restricted Boltzmann Machine (RBM)
+
+Further information on training a RBM can be found in this [guide](/src/docs/RBM.md).
+
+### 2. Deep Belief Network (DBN)
 
 Further information on training a DBN can be found in this [guide](/src/docs/DBN.md).
 
-### 2. Deep Boltzmann Machine (DBM)
+### 3. Deep Boltzmann Machine (DBM)
 
 Further information on training a DBM can be found in this [guide](/src/docs/DBM.md).
 
-### 3. Convolutional Variational Auto-Encoder (CVAE)
+### 4. Convolutional Variational Auto-Encoder (CVAE)
 
 Further information on training a CVAE can be found in this [guide](/src/docs/CVAE.md).
 

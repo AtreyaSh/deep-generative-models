@@ -65,17 +65,17 @@ def plotManifold_CVAE(namePickle,nameFile,im_dim,grid_size,latent_range,std,num_
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", type=str, default="test",
-                        help="file name of output png, defaults to 'test'")
+                        help="file name of output png <default: 'test'>")
     parser.add_argument("--im-dim", type=int, default=28,
-                        help="square dimensions on which to remap images, defaults to 28")
+                        help="square dimensions on which to remap images <default: 28>")
     parser.add_argument("--grid-size", type=int, default=40,
-                        help="square dimensions or sensitivity of grid plot, defaults to 40")
+                        help="square dimensions or sensitivity of grid plot <default: 40>")
     parser.add_argument("--latent-range", type=float, default=3,
-                        help="range on which to search manifold mean, defaults to 3")
+                        help="range on which to search manifold mean <default: 3>")
     parser.add_argument("--std", type=float, default=0.01,
-                        help="standard deviation of latent distribution, defaults to 0.01")
+                        help="standard deviation of latent distribution <default: 0.01>")
     parser.add_argument("--num-samples", type=int, default=50,
-                        help="number of averaging samples per plot cell, defaults to 50")
+                        help="number of averaging samples per plot cell <defaults: 50>")
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('-p', '--pickle', type=str,
                                help="name of directory where cvae weights are stored",

@@ -120,5 +120,4 @@ class CVAE(tf.keras.Model):
         """ sample latent layer and decode to generated visible """
         if eps is None:
             eps = tf.random.normal(shape=(num, self.latent_dim))
-        else:
-            return self.decode(eps, apply_sigmoid=True)
+        return self.decode(eps, apply_sigmoid=True)

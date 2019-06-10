@@ -13,7 +13,7 @@ optional arguments:
   --data DATA           data source to train CVAE, possibilities are 'mnist',
                         'fashion_mnist' and 'faces' <default: 'mnist'>
   --learning-rate LEARNING_RATE
-                        learning rate, <default: 001>
+                        learning rate, <default: 0.001>
   --epochs EPOCHS       number of epochs for training <default: 5>
   --batch-size BATCH_SIZE
                         size of training data batches <default: 50>

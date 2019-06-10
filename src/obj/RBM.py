@@ -9,7 +9,7 @@ import tensorflow as tf
 class RBM:
     """
     Restricted Boltzmann Machine (RBM) in TensorFlow 2
-    pseudocode adapted from Hugo Larochelle's2 deep-learning Youtube series "Neural networks [5.6]"
+    pseudocode adapted from Hugo Larochelle's deep-learning Youtube series "Neural networks [5.6]"
     """
     def __init__(self, num_visible, num_hidden, learning_rate = 0.01, k1 = 1, k2 = 5, epochs = 1, batch_size = 5):
         """ initialize weights/biases randomly """

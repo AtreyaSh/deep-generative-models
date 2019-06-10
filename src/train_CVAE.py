@@ -67,7 +67,7 @@ if __name__ == "__main__":
     parser.add_argument("--data", type=str, default="mnist",
             help="data source to train CVAE, possibilities are 'mnist', 'fashion_mnist' and 'faces' <default: 'mnist'>")
     parser.add_argument("--learning-rate", type=float, default=0.001,
-            help="learning rate, <default: 001>")
+            help="learning rate, <default: 0.001>")
     parser.add_argument("--epochs", type=int, default=5,
             help="number of epochs for training <default: 5>")
     parser.add_argument("--batch-size", type=int, default=50,

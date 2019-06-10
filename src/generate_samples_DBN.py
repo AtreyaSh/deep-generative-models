@@ -30,11 +30,11 @@ def plotSamples_DBN(obj, name, dim = 28, nrows = 10, ncols = 10):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", type=str, default="test",
-                        help="file name of output png, defaults to 'test'")
+                        help="file name of output png <default: 'test'>")
     parser.add_argument("--dim", type=int, default=28,
-                        help="square dimensions on which to remap images, defaults to 28")
+                        help="square dimensions on which to remap images <default: 28>")
     parser.add_argument("--mean-field", type=int, default=1,
-                        help="draw actual samples (0) or mean-field samples (1), defaults to 1")
+                        help="draw actual samples (0) or mean-field samples (1) <default: 1>")
     requiredNamed = parser.add_argument_group('required named arguments')
     requiredNamed.add_argument('-p', '--pickle', type=str, 
                                help="name of directory where dbn.pickle is stored",
