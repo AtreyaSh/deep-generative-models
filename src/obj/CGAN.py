@@ -12,15 +12,17 @@ class CGAN(tf.keras.Model):
         self.epochs = epochs
         self.batch_size = batch_size
         self.learning_rate = learning_rate
+        self.g_factor = g_factor
         self.optimizer_d = tf.keras.optimizers.Adam(self.learning_rate)
-        self.optimizer_g = tf.keras.optimizers.Adam(self.learning_rate*g_factor)
+        self.optimizer_g = tf.keras.optimizers.Adam(self.learning_rate*self.g_factor)
         self.latent_dim = latent_dim
         self.im_dim = im_dim
         self.n_filters = n_filters
+        self.drop_rate = drop_rate
         self.generative_net = tf.keras.Sequential(
         [
           tf.keras.layers.InputLayer(input_shape=(latent_dim,)),
-          tf.keras.layers.Dropout(drop_rate),
+          tf.keras.layers.Dropout(self.drop_rate),
           tf.keras.layers.Dense(units=(int((self.im_dim/2)**2)*self.n_filters), activation="relu", name = "g1"),
           tf.keras.layers.Reshape(target_shape=(int(self.im_dim/2), int((self.im_dim/2)), self.n_filters)),
           tf.keras.layers.Conv2DTranspose(
@@ -43,12 +45,12 @@ class CGAN(tf.keras.Model):
           tf.keras.layers.Conv2D(
                filters=int(self.n_filters), kernel_size=3, strides=(2, 2), activation = tf.nn.leaky_relu, name = "d2"),
           tf.keras.layers.Flatten(),
-          tf.keras.layers.Dropout(drop_rate),
+          tf.keras.layers.Dropout(self.drop_rate),
           tf.keras.layers.Dense(units = int((self.im_dim/4)**2), activation = tf.nn.leaky_relu, name = "d3"),
-          tf.keras.layers.Dropout(drop_rate),
+          tf.keras.layers.Dropout(self.drop_rate),
           tf.keras.layers.Dense(units = 1, name = "d4"),
         ])
-    
+
     # @tf.function
     def generate(self, eps=None, num = None):
         """ generate fake sample using generative net """
