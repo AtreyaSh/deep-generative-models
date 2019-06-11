@@ -24,6 +24,10 @@ Further information on training a DBM can be found in this [guide](/src/docs/DBM
 
 Further information on training a CVAE can be found in this [guide](/src/docs/CVAE.md).
 
+### 5. Convolutional Generative Adverserial Network (CGAN)
+
+Further information on training a CGAN can be found in this [guide](/src/docs/CGAN.md).
+
 ### Literature
 
 Algorithms in this source-code for DBM/DBN/RBMs were adapted from Salakhutdinov and Hinton (2009) with the following bibtex citation:

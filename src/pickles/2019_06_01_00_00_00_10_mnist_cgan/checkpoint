@@ -1,0 +1,2 @@
+model_checkpoint_path: "cgan"
+all_model_checkpoint_paths: "cgan"

@@ -1,0 +1,2 @@
+data,learning_rate,epochs,batch_size,im_dim,num_filters,latent_dimensions,g_factor,drop_rate
+mnist,0.001,50,100,28,32,10,1,0.5
