@@ -1,4 +1,4 @@
-## Convolutional Generative Adverserial Network (CGAN)
+## Convolutional Generative Adversarial Network (CGAN)
 
 Here we have summarized documentation regarding the `train_CGAN.py` function.
 
