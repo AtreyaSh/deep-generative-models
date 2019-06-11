@@ -15,9 +15,9 @@ optional arguments:
                         'fashion_mnist' and 'faces' <default: 'mnist'>
   --learning-rate LEARNING_RATE
                         learning rate, <default: 0.001>
-  --epochs EPOCHS       number of epochs for training <default: 5>
+  --epochs EPOCHS       number of epochs for training <default: 50>
   --batch-size BATCH_SIZE
-                        size of training data batches <default: 50>
+                        size of training data batches <default: 100>
   --im-dim IM_DIM       square dimensionality of input images <default: 28>
   --num-filters NUM_FILTERS
                         number of filters to be used in convolutional layers
