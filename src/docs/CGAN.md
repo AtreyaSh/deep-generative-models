@@ -50,6 +50,22 @@ Using a pre-trained CGAN, we generated 100 samples from MNIST images:
 
 <img src="/img/cgan_mnist.png" width="800">
 
+The log-loss and log-loss gradient profiles for the training can be seen below:
+
+<img src="/img/transition_mnist_2d.png" width="800">
+
+Similarly, we created a 3d scatter-plot for the combined temporal evolution of log-loss and log-loss gradient.
+
+<img src="/img/transition_mnist_3d.png" width="800">
+
 Similarly, we generated 100 samples from fashion-MNIST images:
 
 <img src="/img/cgan_fashion_mnist.png" width="800">
+
+The log-loss and log-loss gradient profiles for the training can be seen below:
+
+<img src="/img/transition_fashion_2d.png" width="800">
+
+Similarly, we created a 3d scatter-plot for the combined temporal evolution of log-loss and log-loss gradient.
+
+<img src="/img/transition_fashion_3d.png" width="800">

@@ -22,6 +22,7 @@
 * add documentation on how lowering learning rate for generator can add stability
 * add profiler for relative learning rate adjustment ie. stacked adam for two optimizers
 * warning about unresolved checkpoints when re-loading weights, could be attributed to learning rate issue
+* fix autograph implementation in colab related to segmenting training to different variables
 
 ### GPU implementation
 * improve RBM/DBM/DBN code with efficiencies for GPU computation, make amendments from feedback
