@@ -41,7 +41,7 @@ class DBN:
         """ generate visible samples from last RBMs input samples """
         print("Gibbs sampling at inner RBM: %s" % str(len(self.models)))
         samples = self.top_samples
-        if indices == None:
+        if indices is None:
             new_data = [self.models[len(self.models)-1].gibbs_sampling(img,k) for img in sample(samples,number_samples)]
         else:
             samples = [samples[i] for i in indices]

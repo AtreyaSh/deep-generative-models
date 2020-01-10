@@ -36,19 +36,19 @@ class RBM:
             binomial_probs = self.prop_down(h,q2)
             v = self.random_sample(binomial_probs)
         return v
-    
+
     def random_sample(self, input_v):
         """ generate binary samples given probability vector """
         return tf.where(tf.random.uniform(shape=tf.shape(input_v)) - input_v < 0,
                          tf.ones(tf.shape(input_v)), tf.zeros(tf.shape(input_v)))
-        
+
     def prop_up(self, v, q=1, sig = True):
         """ upwards mean-field propagation """
         if sig:
             return tf.nn.sigmoid(q*tf.add(self.b_h, tf.matmul(self.w,v)))
         else:
             return tf.add(self.b_h, tf.matmul(self.w,v))
-        
+
     def prop_down(self, h, q=1, sig = True):
         """ downwards mean-field propagation """
         if sig:
@@ -59,7 +59,7 @@ class RBM:
     def chunks(self, l, n):
         """ create chunks/batches from input data """
         return [l[i:i + n] for i in range(0, len(l), n)]
-    
+
     def adam(self,g,t,m=None,r=None):
         """
         adam gradient descent optimization
@@ -68,7 +68,7 @@ class RBM:
         beta1 = .9
         beta2 = .999
         eps = 1e-8
-        if m == None and r == None:
+        if m is None and r is None:
             m = tf.zeros(shape=tf.shape(g),dtype="float32")
             r = tf.zeros(shape=tf.shape(g),dtype="float32")
         m = beta1*m + (1.-beta1)*g
@@ -148,7 +148,7 @@ class RBM:
                 self.b_h.assign_add(self.learning_rate*g_h)
                 self.b_v.assign_add(self.learning_rate*g_v)
             tf.print("Mean gradient 2-norm:", tf.reduce_mean([log_g/j,log_h/j,log_v/j]))
-    
+
     # @tf.function
     def persistive_contrastive_divergence_k(self, tensors, position = None):
         """ learn and update weights/biases via PCD-k algorithm """

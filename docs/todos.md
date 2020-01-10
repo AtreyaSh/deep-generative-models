@@ -26,4 +26,4 @@
 
 ### GPU implementation
 * improve RBM/DBM/DBN code with efficiencies for GPU computation, make amendments from feedback
-* add autograph calls to code and test with Google GPU for optimization
+* add autograph calls to all code and test with Google GPU for optimization

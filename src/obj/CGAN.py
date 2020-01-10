@@ -59,7 +59,7 @@ class CGAN(tf.keras.Model):
         if eps is None:
             eps = tf.random.normal(shape=(num, self.latent_dim))
         return self.generative_net(eps)
-    
+
     # @tf.function
     def discriminate(self, x, apply_sigmoid=False):
         """ discriminate between fake and real samples """
@@ -69,7 +69,7 @@ class CGAN(tf.keras.Model):
             return probs
         else:
             return logits
-    
+
     def compute_loss_discriminator(self, x):
         """ compute log-loss for discriminator """
         x_logit = self.discriminate(x)
@@ -78,7 +78,7 @@ class CGAN(tf.keras.Model):
         cross_ent_x = tf.nn.sigmoid_cross_entropy_with_logits(logits=x_logit, labels=tf.ones(shape=x_logit.shape))
         cross_ent_gen = tf.nn.sigmoid_cross_entropy_with_logits(logits=-gen_logit, labels=tf.ones(shape=gen_logit.shape))
         return tf.reduce_mean(cross_ent_gen) + tf.reduce_mean(cross_ent_x)
-    
+
     def compute_loss_generator(self):
         """ compute log-loss for generator """
         gen = self.generate()
@@ -87,7 +87,7 @@ class CGAN(tf.keras.Model):
         return tf.reduce_mean(cross_ent_gen)
 
     def compute_gradients(self, x, sub):
-        """ 
+        """
         compute dynamic gradients with separate optimizers which could theoretically undergo dynamic adjustment during training
         """
         with tf.GradientTape() as tape:
@@ -99,14 +99,14 @@ class CGAN(tf.keras.Model):
                 loss = self.compute_loss_generator()
                 t_v = [el for el in self.trainable_variables if "g" in el.name]
                 return tape.gradient(loss, t_v), t_v, loss
-            
+
     def apply_gradients(self, gradients, t_v, sub):
         """ apply adam gradient descent optimizer for learning process """
         if sub == "discriminator":
           self.optimizer_d.apply_gradients(zip(gradients, t_v))
         elif sub == "generator":
           self.optimizer_g.apply_gradients(zip(gradients, t_v))
-        
+
     def train(self, train_dataset):
         """ main training call for CGAN """
         num_samples = int(train_dataset.shape[0]/self.batch_size)

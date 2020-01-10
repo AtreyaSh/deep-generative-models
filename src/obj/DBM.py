@@ -54,7 +54,7 @@ class DBM:
     def block_gibbs_sampling(self, k = 15, indices = None, number_samples = 100, mean_field = True):
         """ generate samples using even/odd layers which compromise overall Gibbs sampling """
         data = self.data[0]
-        if indices == None:
+        if indices is None:
             indices = sample(range(len(data)), number_samples)
         data = [data[ind] for ind in indices]
         for q in range(k):

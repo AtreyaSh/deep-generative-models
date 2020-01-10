@@ -47,18 +47,18 @@ class CVAE(tf.keras.Model):
           tf.keras.layers.Conv2DTranspose(
               filters=1, kernel_size=3, strides=(1, 1), padding="SAME"),
         ])
-    
+
     # @tf.function
     def encode(self, x):
         """ encode input data into log-normal distribution at latent layer """
         mean, logvar = tf.split(self.inference_net(x), num_or_size_splits=2, axis=1)
         return mean, logvar
-    
+
     def reparameterize(self, mean, logvar):
         """ reparameterize normal distribution from learned mean/variance """
         eps = tf.random.normal(shape=mean.shape)
         return eps * tf.exp(logvar * .5) + mean
-    
+
     # @tf.function
     def decode(self, z, apply_sigmoid=False):
         """ decode latent variables into visible samples """
@@ -68,7 +68,7 @@ class CVAE(tf.keras.Model):
             return probs
         else:
             return logits
-    
+
     def log_normal_pdf(self, sample, mean, logvar, raxis=1):
         """ function for defining log normal PDF """
         log2pi = tf.math.log(2. * np.pi)
@@ -95,7 +95,7 @@ class CVAE(tf.keras.Model):
     def apply_gradients(self, gradients):
         """ apply adam gradient descent optimizer for learning process """
         self.optimizer.apply_gradients(zip(gradients, self.trainable_variables))
-        
+
     def train(self, train_dataset):
         """ main training call for CVAE """
         num_samples = int(train_dataset.shape[0]/self.batch_size)
@@ -115,7 +115,7 @@ class CVAE(tf.keras.Model):
                     tf.print("Epoch: %s, Batch: %s/%s" % (i+1,j,num_samples))
                     tf.print("Mean-Loss: ", Loss/j, ", Mean gradient-norm: ", norm/j)
                 j += 1
-  
+
     def sample(self, eps=None, num = 50):
         """ sample latent layer and decode to generated visible """
         if eps is None:
