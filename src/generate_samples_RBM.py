@@ -34,14 +34,14 @@ def plotSamples(namePickle,nameFile,dim,mf,number_samples=100,indices = None):
         x_train = np.asarray(x_train)
         # make images sparse for easier distinctions
         for img in x_train:
-            img[img < np.mean(img)+0.5*np.std(img)] = 0        
+            img[img < np.mean(img)+0.5*np.std(img)] = 0
         x_train = [tf.cast(tf.reshape(x,shape=(784,1)),"float32") for x in x_train]
     else:
-        raise NameError("unknown data type: %s" % x_train)    
+        raise NameError("unknown data type: %s" % x_train)
     # run gibbs sampling 15 times
-    if indices == None:
+    if indices is None:
         indices = sample(range(len(x_train)), number_samples)
-    x_train = [x_train[ind] for ind in indices]    
+    x_train = [x_train[ind] for ind in indices]
     samples = rbm.gibbs_sampling(x_train, k = 15)
     if mf == True:
        samples = rbm.prop_down(rbm.prop_up(samples))

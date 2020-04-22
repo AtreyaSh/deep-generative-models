@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from obj.CGAN import CGAN
 
-def plotSamples(namePickle,nameFile):    
+def plotSamples(namePickle,nameFile):
     dim = pd.read_csv("./pickles/"+namePickle+"/log.csv")["latent_dimensions"][0]
     # remove dropout for testing
     model = CGAN(dim, drop_rate=0)

@@ -100,7 +100,7 @@ class RBM:
                         tf.print("Mean gradient 2-norm:", tf.reduce_mean([log_g/j,log_h/j,log_v/j]))
                 # compute starting gradient
                 batch = tf.stack(batch)
-                if position == None:
+                if position is None:
                     u = tf.map_fn(self.prop_up,batch)
                     g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
                     # compute sampled gibbs
@@ -171,7 +171,7 @@ class RBM:
                         tf.print("Mean gradient 2-norm: ", tf.reduce_mean([log_g/j,log_h/j,log_v/j]))
                 # compute starting gradient
                 batch = tf.stack(batch)
-                if position == None:
+                if position is None:
                     u = tf.map_fn(self.prop_up,batch)
                     g = tf.reduce_mean(tf.stack([tf.matmul(u[i],tf.transpose(batch[i])) for i in range(self.batch_size)]),0)
                     # compute sampled gibbs

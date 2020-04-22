@@ -26,7 +26,7 @@ def squareToSpiral(d):
         res.extend([res[len(res)-1]+(i+1)*d for i in range(D)])
         # upwards
         res.extend([res[len(res)-1]-(i+1) for i in range(D)])
-        # leftwards    
+        # leftwards
         res.extend([res[len(res)-1]-(i+1)*d for i in range(D-1)])
         # update counter, makes move for even and odd respectively
         D -= 2
