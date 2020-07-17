@@ -4,4 +4,3 @@ tensorflow==2.0.1
 scikit_image==0.16.2
 imageio==2.6.1
 pandas==0.25.3
-skimage==0.0
