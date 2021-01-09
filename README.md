@@ -6,7 +6,7 @@ Note: Source code in this repository was only tested on the CPU. Therefore exten
 
 ### Dependencies
 
-This repository's source code was tested with python versions `3.7.*`.
+This repository's source code was tested with Python versions `3.7.*`.
 
 1. Install python dependencies located in `requirements.txt`:
 
