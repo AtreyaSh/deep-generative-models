@@ -4,21 +4,21 @@ This repository contains TensorFlow 2.0 python source-code for deep generative m
 
 Note: Source code in this repository was only tested on the CPU. Therefore extending usage to GPU(s) might result in issues.
 
-In order to develop this repository, it is recommended to initialize a pre-commit hook for automatic updates of python dependencies:
-
-```shell
-$ ./init.sh
-```
-
 ### Dependencies
 
 This repository's source code was tested with python versions `3.7.*`.
 
-Install python dependencies located in `requirements.txt`:
+1. Install python dependencies located in `requirements.txt`:
 
-```shell
-$ pip install -r requirements.txt
-```
+  ```shell
+  $ pip install -r requirements.txt
+  ```
+
+2. Optional: To develop this repository, it is recommended to initialize a pre-commit hook for automatic updates of python dependencies:
+
+  ```shell
+  $ ./init.sh
+  ```
 
 ### Workflow
 
