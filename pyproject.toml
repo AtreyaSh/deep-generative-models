@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "deep-generative-models"
+version = "0.1.0"
+description = ""
+authors = ["Atreya Shankar <35427332+atreyasha@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+numpy = "1.18.1"
+matplotlib = "3.1.2"
+tensorflow = "2.0.3"
+scikit-image = "0.16.2"
+pandas = "0.25.3"
+imageio = "2.6.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
