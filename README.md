@@ -10,15 +10,15 @@ This repository's source code was tested with python versions `3.7.*`.
 
 1. Install python dependencies located in `requirements.txt`:
 
-  ```shell
-  $ pip install -r requirements.txt
-  ```
+    ```shell
+    $ pip install -r requirements.txt
+    ```
 
 2. Optional: To develop this repository, it is recommended to initialize a pre-commit hook for automatic updates of python dependencies:
 
-  ```shell
-  $ ./init.sh
-  ```
+    ```shell
+    $ ./init.sh
+    ```
 
 ### Workflow
 
