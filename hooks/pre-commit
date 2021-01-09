@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+find_non_deleted_staged() {
+  # function to check if input has been staged
+  local input="$1"
+  git diff --name-only --cached --diff-filter=d "$input" 2>/dev/null
+}
+
+update_python_dependencies() {
+  # function to synchronize poetry.lock with requirements.txt
+  local poetry_staged
+  # update requirements.txt given conditions
+  if command -v poetry &>/dev/null; then
+    mapfile -t poetry_staged < <(find_non_deleted_staged "poetry.lock")
+    if [ "${#poetry_staged[@]}" -ne "0" ]; then
+      printf "%s\n" "Syncing python dependencies with poetry"
+      poetry export -f requirements.txt --without-hashes -o requirements.txt
+      git add "requirements.txt"
+    fi
+  fi
+}
+
+format_shell_scripts() {
+  # function to format all shell files
+  local input shell_staged
+  input="$1"
+  # format staged shell scripts
+  if command -v shfmt &>/dev/null; then
+    mapfile -t shell_staged < <(find_non_deleted_staged "$input")
+    if [ "${#shell_staged[@]}" -ne "0" ]; then
+      printf "%s\n" "Formatting shell scripts with shfmt"
+      shfmt -w -i 2 "${shell_staged[@]}"
+      git add "${shell_staged[@]}"
+    fi
+  fi
+}
+
+format_R_scripts() {
+  # function to format all R files
+  local input R_staged R_file
+  input="$1"
+  # format staged R files
+  if Rscript -e 'styler::style_file' &>/dev/null; then
+    mapfile -t R_staged < <(find_non_deleted_staged "$input")
+    if [ "${#R_staged[@]}" -ne "0" ]; then
+      printf "%s\n" "Formatting R scripts"
+      for R_file in "${R_staged[@]}"; do
+        Rscript -e "styler::style_file(\"$R_file\")"
+      done
+      git add "${R_staged[@]}"
+    fi
+  fi
+}
+
+convert_org_to_md() {
+  # function to convert org doc to markdown
+  local input output org_staged input_file
+  input="$1"
+  # conduct checks and convert
+  if command -v pandoc &>/dev/null; then
+    mapfile -t org_staged < <(find_non_deleted_staged "$input")
+    if [ "${#org_staged[@]}" -ne "0" ]; then
+      for input_file in "${org_staged[@]}"; do
+        [[ "$input_file" =~ .*\.org$ ]] || continue
+        output="${input_file//.org/.md}"
+        printf "%s\n" "Converting relevant org files to markdown"
+        # basic conversion to markdown
+        pandoc -f org -t markdown -o "$output" "$input_file"
+        # add TOC to markdown
+        pandoc -s -t markdown --toc -o "$output" "$output"
+        # add TOC title
+        sed -i '1 i\## Table of Contents' "$output"
+        # replace org-agenda markers cleanly
+        sed -i 's/\[TODO\]{.*}/**TODO**/g; s/\[DONE\]{.*}/**DONE**/g' "$output"
+        # replace startup visibility cleanly
+        sed -i '/```{=org}/,/```/d' "$output"
+        # stage new markdown for commit
+        git add "$output"
+      done
+    fi
+  fi
+}
+
+main() {
+  # main call to functions
+  # NOTE: user edit(s) go here
+  update_python_dependencies
+  format_shell_scripts "*.sh"
+}
+
+main
